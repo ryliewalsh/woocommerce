@@ -419,7 +419,7 @@ get_header();
 /* Sticky Tabs Navigation */
 .grandio-sticky-tabs {
     position: sticky;
-    top: 0;
+    top: 50px;
     background: white;
     z-index: 998;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -1147,107 +1147,105 @@ get_header();
         flex: 0 0 calc(33.333% - 7px); /* 3 visible */
     }
 }
-/* Variable Product Badge */
-.compact-variable-badge {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    background: #9b59b6;
-    color: white;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
+/* Variable product cards are NOT clickable */
+.compact-product-card.variable-product {
+    cursor: default !important;
 }
 
-/* Variable Product Options */
-.variable-product-options {
-    padding: 0;
+.compact-product-card.variable-product .compact-card-main {
+    cursor: default !important;
+    pointer-events: none; /* Disable clicking on the main card area */
 }
 
-.variable-instructions {
-    margin: 0 0 15px 0;
-    color: #2c3e50;
-    font-size: 15px;
+/* But allow clicking/interacting with the dropdown */
+.compact-product-card.variable-product .compact-description {
+    pointer-events: auto;
 }
 
-.variable-attribute-group {
-    margin-bottom: 20px;
-}
-
-.variable-attribute-label {
-    display: block;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 12px;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.variable-options-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
-}
-
-.variable-option {
-    position: relative;
-}
-
-.variable-option-input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.variable-option-label {
-    display: block;
-    padding: 15px;
-    background: white;
-    border: 3px solid #e0e0e0;
-    border-radius: 8px;
+.compact-product-card.variable-product .variation-select {
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
 }
 
-.variable-option-label:hover {
+/* Remove hover effect from variable product cards */
+.compact-product-card.variable-product:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Show different hover only on dropdown */
+.compact-product-card.variable-product .variation-select:hover {
     border-color: #3498db;
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
 }
 
-.variable-option-input:checked + .variable-option-label {
+/* Selected state still shows blue border */
+.compact-product-card.variable-product.selected {
     border-color: #3498db;
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
 }
 
-.variable-option-name {
-    display: block;
-    font-weight: 600;
-    color: #2c3e50;
-    font-size: 15px;
-    margin-bottom: 5px;
-}
-
-.variable-option-price {
-    display: block;
-    font-weight: 700;
-    color: #27ae60;
-    font-size: 16px;
-}
-
-.product-description-text {
-    margin-top: 20px;
-    padding-top: 20px;
+/* Always show dropdown - no display:none */
+.compact-product-card.variable-product .compact-description {
+    display: block !important;
+    background: #f8f9fa;
     border-top: 2px solid #e0e0e0;
 }
 
+/* Variable Product Dropdown */
+.variable-product-dropdown {
+    padding: 20px 15px 15px 15px;
+}
+
+.variation-label {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.variation-label strong {
+    color: #e74c3c;
+}
+
+.variation-select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 15px;
+    border: 3px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.variation-select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.variation-select option {
+    padding: 10px;
+    font-weight: 500;
+}
+
+.variation-select option:first-child {
+    color: #999;
+    font-style: italic;
+}
+
+/* Hide price for variable products */
+.compact-product-card.variable-product .compact-price {
+    display: none;
+}
+
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
-    .variable-options-grid {
+    .variations-grid {
         grid-template-columns: 1fr;
     }
 }
@@ -1641,110 +1639,69 @@ function render_compact_product_card($cross_product) {
                     </div>
                 <?php endif; ?>
                 
-                <!-- VARIABLE PRODUCT OPTIONS - ONLY FOR VARIABLE PRODUCTS -->
-                <?php if ($is_variable) : ?>
-                    <!-- VARIABLE PRODUCT - SHOW ALL VARIATIONS -->
-                    <?php
-                    $available_variations = $cross_product->get_available_variations();
-                    ?>
-                    
-                    <div class="variable-product-options">
-                        <p class="variable-instructions">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" style="vertical-align: middle; margin-right: 5px;">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="12" y1="16" x2="12" y2="12"></line>
-                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                            </svg>
-                            <strong>Select one option to add to your package:</strong>
-                        </p>
-                        
-                        <div class="variations-grid">
-                            <?php foreach ($available_variations as $variation_data) : 
-                                $variation = wc_get_product($variation_data['variation_id']);
-                                if (!$variation || !$variation->is_in_stock()) continue;
-                                
-                                // Get variation attributes for display
-                                $variation_attributes = array();
-                                foreach ($variation_data['attributes'] as $attr_name => $attr_value) {
-                                    $attribute_label = wc_attribute_label(str_replace('attribute_', '', $attr_name));
-                                    $variation_attributes[] = $attr_value;
-                                }
-                                
-                                $variation_name = implode(' - ', $variation_attributes);
-                                $variation_price = $variation->get_price();
-                                $variation_regular_price = $variation->get_regular_price();
-                                $variation_on_sale = $variation->is_on_sale();
-                                
-                                // Get variation image
-                                $variation_image_id = $variation->get_image_id();
-                            ?>
-                            
-                            <div class="variation-option" 
-                                 data-variation-id="<?php echo esc_attr($variation->get_id()); ?>"
-                                 data-variation-price="<?php echo esc_attr($variation_price); ?>"
-                                 data-variation-name="<?php echo esc_attr($cross_product->get_name() . ' - ' . $variation_name); ?>"
-                                 data-parent-id="<?php echo esc_attr($product_id); ?>">
-                                
-                                <input type="radio" 
-                                       name="variation_<?php echo esc_attr($product_id); ?>" 
-                                       id="variation_<?php echo esc_attr($variation->get_id()); ?>"
-                                       value="<?php echo esc_attr($variation->get_id()); ?>"
-                                       class="variation-option-input">
-                                
-                                <label for="variation_<?php echo esc_attr($variation->get_id()); ?>" class="variation-option-label">
-                                    <?php if ($variation_image_id) : ?>
-                                        <div class="variation-option-image">
-                                            <?php echo wp_get_attachment_image($variation_image_id, 'thumbnail'); ?>
-                                        </div>
-                                    <?php endif; ?>
-                                    
-                                    <div class="variation-option-info">
-                                        <span class="variation-option-name"><?php echo esc_html($variation_name); ?></span>
-                                        
-                                        <div class="variation-option-price">
-                                            <?php if ($variation_on_sale) : ?>
-                                                <del><?php echo wc_price($variation_regular_price); ?></del>
-                                            <?php endif; ?>
-                                            <span class="price-main"><?php echo wc_price($variation_price); ?></span>
-                                        </div>
-                                        
-                                        <?php if ($variation_on_sale) : ?>
-                                            <span class="variation-sale-badge">
-                                                Save <?php echo wc_price($variation_regular_price - $variation_price); ?>
-                                            </span>
-                                        <?php endif; ?>
-                                        
-                                        <?php
-                                        // Show stock status
-                                        $stock_status = $variation->get_stock_status();
-                                        if ($stock_status === 'instock') {
-                                            $stock_qty = $variation->get_stock_quantity();
-                                            if ($stock_qty && $stock_qty < 5) {
-                                                echo '<span class="variation-stock-low">Only ' . $stock_qty . ' left!</span>';
-                                            }
-                                        }
-                                        ?>
-                                    </div>
-                                    
-                                    <div class="variation-checkmark">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </div>
-                                </label>
-                            </div>
-                            
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
+             <!-- VARIABLE PRODUCT OPTIONS - ONLY FOR VARIABLE PRODUCTS -->
+<!-- VARIABLE PRODUCT OPTIONS - DROPDOWN -->
+<?php if ($is_variable) : ?>
+    <div class="variable-product-dropdown">
+        <label for="variation_select_<?php echo esc_attr($product_id); ?>" class="variation-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" style="vertical-align: middle; margin-right: 5px;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <strong>Select Option:</strong>
+        </label>
+        
+        <select 
+            id="variation_select_<?php echo esc_attr($product_id); ?>" 
+            name="variation_select_<?php echo esc_attr($product_id); ?>"
+            class="variation-select"
+            data-parent-id="<?php echo esc_attr($product_id); ?>"
+            required>
+            <option value="">-- Choose an option --</option>
+            
+            <?php
+            $available_variations = $cross_product->get_available_variations();
+            foreach ($available_variations as $variation_data) : 
+                $variation = wc_get_product($variation_data['variation_id']);
+                if (!$variation || !$variation->is_in_stock()) continue;
                 
-            </div>
-        </div>
-        <?php endif; ?>
+                // Get variation attributes for display
+                $variation_attributes = array();
+                foreach ($variation_data['attributes'] as $attr_name => $attr_value) {
+                    $variation_attributes[] = $attr_value;
+                }
+                
+                $variation_name = implode(' - ', $variation_attributes);
+                $variation_price = $variation->get_price();
+                $variation_regular_price = $variation->get_regular_price();
+                $variation_on_sale = $variation->is_on_sale();
+                
+                // Build option label
+                $option_label = $variation_name . ' - ' . wc_price($variation_price);
+                if ($variation_on_sale) {
+                    $option_label .= ' (Save ' . wc_price($variation_regular_price - $variation_price) . ')';
+                }
+            ?>
+            
+            <option 
+                value="<?php echo esc_attr($variation->get_id()); ?>"
+                data-price="<?php echo esc_attr($variation_price); ?>"
+                data-name="<?php echo esc_attr($cross_product->get_name() . ' - ' . $variation_name); ?>">
+                <?php echo esc_html($variation_name . ' - '); ?><?php echo wc_price($variation_price); ?><?php if ($variation_on_sale) echo ' (Save ' . wc_price($variation_regular_price - $variation_price) . ')'; ?>
+            </option>
+            
+            <?php endforeach; ?>
+        </select>
     </div>
-    
-    <?php
+<?php endif; ?>
+
+</div>
+</div>
+<?php endif; ?>
+</div>
+
+<?php
 }
 
 // Render sections using the function
@@ -1963,22 +1920,20 @@ foreach ($tabs as $key => $tab) :
                         ?>
                         <li class="review" id="comment-<?php echo $comment->comment_ID; ?>" style="margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px solid #e0e0e0;">
                             <div class="comment_container" style="display: flex; gap: 20px;">
-                                <div class="comment-avatar">
-                                    <?php echo get_avatar($comment, 60, '', '', array('class' => 'avatar')); ?>
-                                </div>
+                             
                                 <div class="comment-text" style="flex: 1;">
                                     <!-- Product Name Badge at Top -->
                                     <?php if ($product_reviewed) : ?>
                                         <div style="margin-bottom: 12px;">
                                             <span style="display: inline-block; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); color: #1976d2; padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: 600; border: 2px solid #90caf9;">
-                                                📦 <?php echo esc_html($product_reviewed->post_title); ?>
+                                                 <?php echo esc_html($product_reviewed->post_title); ?>
                                             </span>
                                         </div>
                                     <?php endif; ?>
                                     
                                     <?php if ($rating) : ?>
                                     <div class="star-rating" role="img" aria-label="Rated <?php echo $rating; ?> out of 5" style="margin-bottom: 10px; color: #ffc107; font-size: 18px;">
-                                        <?php echo str_repeat('⭐', intval($rating)); ?>
+                                       
                                     </div>
                                     <?php endif; ?>
                                     
@@ -2104,6 +2059,7 @@ foreach ($tabs as $key => $tab) :
         
     </div>
 </div>
+<!-- JAVA SCRIPT on page updates --> 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Initializing all features...');
@@ -2113,13 +2069,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const nonce = '<?php echo wp_create_nonce('grandio_package_nonce'); ?>';
     
     // ========================================
-    // STICKY TABS - DECLARE FIRST
+    // STICKY TABS
     // ========================================
     const stickyTabsNav = document.getElementById('stickyTabsNav');
     const tabLinks = document.querySelectorAll('.tab-link');
     const tabPanels = document.querySelectorAll('.grandio-tab-panel');
     
-    // Function to activate a specific tab
     function activateTab(tabName) {
         tabLinks.forEach(l => l.classList.remove('active'));
         tabPanels.forEach(p => p.classList.remove('active'));
@@ -2131,14 +2086,12 @@ document.addEventListener('DOMContentLoaded', function() {
             targetTabLink.classList.add('active');
             targetPanel.classList.add('active');
             
-            // Scroll to the panel
             setTimeout(() => {
                 targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         }
     }
     
-    // Tab click handlers
     tabLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -2180,7 +2133,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (hash) {
             let tabName = '';
             
-            // Remove # and handle both formats
             if (hash === '#reviews' || hash === '#tab-reviews') {
                 tabName = 'reviews';
             } else if (hash === '#description' || hash === '#tab-description') {
@@ -2197,10 +2149,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Call on page load
     handleHashChange();
-    
-    // Also listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
     
     // ========================================
@@ -2217,7 +2166,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const visible = 4;
         let index = 0;
 
-        // Show arrows ONLY if needed
         if (thumbs.length > visible) {
             leftArrow.style.display = 'flex';
             rightArrow.style.display = 'flex';
@@ -2244,7 +2192,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Thumbnail clicks
         thumbs.forEach(thumb => {
             const img = thumb.querySelector('img');
             img.addEventListener('click', () => {
@@ -2262,6 +2209,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ========================================
+    // NOTIFICATION SYSTEM
+    // ========================================
+    function showNotification(message, type = 'info') {
+        const existingNotif = document.querySelector('.grandio-notification');
+        if (existingNotif) {
+            existingNotif.remove();
+        }
+        
+        const notification = document.createElement('div');
+        notification.className = `grandio-notification grandio-notification-${type}`;
+        notification.innerHTML = `
+            <div class="grandio-notification-content">
+                <span class="grandio-notification-icon">
+                    ${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}
+                </span>
+                <span class="grandio-notification-message">${message}</span>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => notification.classList.add('show'), 10);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 5000);
+    }
+    
+    // ========================================
     // PACKAGE BUILDER
     // ========================================
     let selectedProducts = [];
@@ -2270,14 +2247,101 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainProductCard = document.querySelector('.grandio-product-card.main-product');
     if (mainProductCard) {
         const mainProduct = {
-            id: mainProductCard.dataset.productId,
+            id: parseInt(mainProductCard.dataset.productId),
             name: mainProductCard.dataset.productName,
             price: parseFloat(mainProductCard.dataset.productPrice)
         };
         selectedProducts.push(mainProduct);
     }
     
-    // Handle compact card clicks (toggle selection)
+    // Update summary function
+    function updateSummary() {
+        const selectedItemsCountEl = document.getElementById('selectedItemsCount');
+        const itemsListTextEl = document.getElementById('itemsListText');
+        const packageTotalEl = document.getElementById('packageTotal');
+        
+        if (!selectedItemsCountEl || !itemsListTextEl || !packageTotalEl) return;
+        
+        selectedItemsCountEl.textContent = selectedProducts.length;
+        const itemNames = selectedProducts.map(p => p.name).join(', ');
+        itemsListTextEl.textContent = itemNames;
+        const total = selectedProducts.reduce((sum, p) => sum + p.price, 0);
+        packageTotalEl.textContent = '$' + total.toFixed(2);
+    }
+    
+    // ========================================
+    // VARIATION DROPDOWN HANDLER - INSIDE DOMContentLoaded!
+    // ========================================
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('variation-select')) {
+            const select = e.target;
+            const selectedOption = select.options[select.selectedIndex];
+            const card = select.closest('.compact-product-card');
+            const parentId = parseInt(select.dataset.parentId);
+            
+            if (!selectedOption.value) {
+                // Remove from package
+                card.dataset.hasVariationSelected = 'false';
+                card.classList.remove('selected');
+                
+                selectedProducts = selectedProducts.filter(p => {
+                    return parseInt(p.parentId) !== parentId;
+                });
+                
+                updateSummary();
+                showNotification('Removed from package', 'info');
+                return;
+            }
+            
+            const variationId = parseInt(selectedOption.value);
+            const variationPrice = parseFloat(selectedOption.dataset.price);
+            const variationName = selectedOption.dataset.name;
+            
+            console.log('=== DROPDOWN CHANGED ===');
+            console.log('Parent ID:', parentId);
+            console.log('New Variation ID:', variationId);
+            console.log('Before filtering:', selectedProducts);
+            
+            // Remove ALL products with this parentId
+            selectedProducts = selectedProducts.filter(p => {
+                const keep = parseInt(p.parentId) !== parentId;
+                console.log(`Product ${p.id} (parent: ${p.parentId}): ${keep ? 'KEEP' : 'REMOVE'}`);
+                return keep;
+            });
+            
+            console.log('After filtering:', selectedProducts);
+            
+            // Update card data
+            card.dataset.productId = variationId;
+            card.dataset.productPrice = variationPrice;
+            card.dataset.productName = variationName;
+            card.dataset.hasVariationSelected = 'true';
+            
+            // Add the NEW variation
+            const newProduct = {
+                id: variationId,
+                name: variationName,
+                price: variationPrice,
+                parentId: parentId
+            };
+            
+            selectedProducts.push(newProduct);
+            
+            console.log('After adding new:', selectedProducts);
+            console.log('Total items:', selectedProducts.length);
+            console.log('======================');
+            
+            // Mark card as selected
+            card.classList.add('selected');
+            
+            showNotification('✓ ' + variationName, 'success');
+            updateSummary();
+        }
+    });
+    
+    // ========================================
+    // COMPACT CARD CLICK HANDLERS - INSIDE DOMContentLoaded!
+    // ========================================
     const compactCards = document.querySelectorAll('.compact-product-card');
     
     compactCards.forEach(card => {
@@ -2287,9 +2351,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Toggle selected state
+            // Ignore if clicking dropdown area
+            if (e.target.closest('.variation-select') || e.target.closest('.variable-product-dropdown')) {
+                return;
+            }
+            
+            // Check if variable product
+            const isVariable = this.dataset.isVariable === 'true';
+            
+            if (isVariable) {
+                // BLOCK clicks on variable products
+                const dropdown = this.querySelector('.variation-select');
+                
+                if (dropdown) {
+                    dropdown.focus();
+                }
+                
+                showNotification('ℹ️ Use the dropdown to select this product', 'info');
+                
+                if (dropdown) {
+                    dropdown.style.animation = 'pulse 0.5s';
+                    setTimeout(() => {
+                        dropdown.style.animation = '';
+                    }, 500);
+                }
+                
+                return;
+            }
+            
+            // FOR NON-VARIABLE PRODUCTS: Toggle selection
             const productData = {
-                id: this.dataset.productId,
+                id: parseInt(this.dataset.productId),
                 name: this.dataset.productName,
                 price: parseFloat(this.dataset.productPrice)
             };
@@ -2297,12 +2389,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.classList.contains('selected')) {
                 // Deselect
                 this.classList.remove('selected');
-                selectedProducts = selectedProducts.filter(p => p.id !== productData.id);
+                selectedProducts = selectedProducts.filter(p => parseInt(p.id) !== productData.id);
+                showNotification('Removed from package', 'info');
             } else {
                 // Select
                 this.classList.add('selected');
-                if (!selectedProducts.find(p => p.id === productData.id)) {
+                
+                if (!selectedProducts.find(p => parseInt(p.id) === productData.id)) {
                     selectedProducts.push(productData);
+                    showNotification('✓ Added to package', 'success');
                 }
             }
             
@@ -2310,12 +2405,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Handle expand/collapse buttons
+    // ========================================
+    // EXPAND/COLLAPSE BUTTONS
+    // ========================================
     const expandButtons = document.querySelectorAll('.compact-expand-btn');
     
     expandButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent card selection
+            e.stopPropagation();
             
             const card = this.closest('.compact-product-card');
             const description = card.querySelector('.compact-description');
@@ -2332,23 +2429,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Update summary function
-    function updateSummary() {
-        const selectedItemsCountEl = document.getElementById('selectedItemsCount');
-        const itemsListTextEl = document.getElementById('itemsListText');
-        const packageTotalEl = document.getElementById('packageTotal');
-        
-        if (!selectedItemsCountEl || !itemsListTextEl || !packageTotalEl) return;
-        
-        selectedItemsCountEl.textContent = selectedProducts.length;
-        const itemNames = selectedProducts.map(p => p.name).join(', ');
-        itemsListTextEl.textContent = itemNames;
-        const total = selectedProducts.reduce((sum, p) => sum + p.price, 0);
-        const currencySymbol = '$';
-        packageTotalEl.textContent = currencySymbol + total.toFixed(2);
-    }
-    
-    // Handle checkout button click - AJAX VERSION
+    // ========================================
+    // CHECKOUT BUTTON - AJAX
+    // ========================================
     const checkoutBtn = document.getElementById('checkoutBtn');
     const packageQtyInput = document.getElementById('packageQty');
     
@@ -2391,7 +2474,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('AJAX Response:', data);
                 
                 if (data.success) {
-                    // Success!
                     button.innerHTML = `
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="20 6 9 17 4 12"></polyline>
@@ -2404,18 +2486,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         'success'
                     );
                     
-                    // Show any failed products
                     if (data.data.failed_count > 0) {
                         console.warn('Some products failed:', data.data.failed_products);
                     }
                     
-                    // Redirect to checkout after 1 second
                     setTimeout(() => {
                         window.location.href = data.data.checkout_url;
                     }, 1000);
                     
                 } else {
-                    // Error
                     button.innerHTML = originalHTML;
                     button.disabled = false;
                     
@@ -2438,50 +2517,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ========================================
-    // NOTIFICATION SYSTEM
-    // ========================================
-    function showNotification(message, type = 'info') {
-        // Remove any existing notifications
-        const existingNotif = document.querySelector('.grandio-notification');
-        if (existingNotif) {
-            existingNotif.remove();
-        }
-        
-        // Create notification
-        const notification = document.createElement('div');
-        notification.className = `grandio-notification grandio-notification-${type}`;
-        notification.innerHTML = `
-            <div class="grandio-notification-content">
-                <span class="grandio-notification-icon">
-                    ${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}
-                </span>
-                <span class="grandio-notification-message">${message}</span>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // Animate in
-        setTimeout(() => notification.classList.add('show'), 10);
-        
-        // Remove after 5 seconds
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, 5000);
-    }
-    
-    // ========================================
     // INITIALIZE
     // ========================================
-    
-    // Initial summary update
     updateSummary();
     
     console.log('All features initialized successfully!');
-    console.log('Selected products:', selectedProducts);
-});
-
+    console.log('Initial selected products:', selectedProducts);
+    
+}); // END DOMContentLoaded
 </script>
 
 <?php get_footer(); ?>
