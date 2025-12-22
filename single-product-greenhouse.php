@@ -1326,14 +1326,12 @@ if ($attachment_ids) :
             <div class="grandio-product-summary">
                 <h1 class="grandio-product-title"><?php the_title(); ?></h1>
                
-               <a href="#reviews" class="grandio-product-rating scroll-to-reviews">
-    <?php if ( $product->get_rating_count() ) : ?>
+               
+                     <?php if ($product->get_rating_count()) : ?>
+    <a href="#reviews" class="grandio-product-rating scroll-to-reviews">
         <?php woocommerce_template_single_rating(); ?>
-    <?php else : ?>
-        <span class="no-reviews-yet">No reviews yet</span>
-    <?php endif; ?>
-</a>
-
+    </a>
+<?php endif; ?>
                 <div class="grandio-product-price">
                     <?php echo $product->get_price_html(); ?>
                 </div>
@@ -1831,9 +1829,6 @@ function render_compact_product_card($cross_product) {
 <div class="grandio-product-tabs">
 <?php
 $tabs = apply_filters('woocommerce_product_tabs', array());
-echo '<pre>';
-print_r(array_keys($tabs));
-echo '</pre>';
 
 // Store the ACTUAL current product ID before any loops
 $actual_current_product_id = $product->get_id();
@@ -1876,12 +1871,13 @@ foreach ($tabs as $key => $tab) :
         }
         
         // Get all reviews from category products
-      $all_category_reviews = get_comments(array(
-    'post_id' => $current_product_id,
-    'status' => 'approve',
-    'type' => 'review',
-));
-
+        $all_category_reviews = get_comments(array(
+            'post__in' => $products_in_category,
+            'status' => 'approve',
+            'type' => 'review',
+            'orderby' => 'comment_date_gmt',
+            'order' => 'DESC',
+        ));
         
         // If no reviews with type 'review', try empty type
         if (empty($all_category_reviews)) {
@@ -1909,8 +1905,7 @@ foreach ($tabs as $key => $tab) :
         // Build review page URL
         $review_page_url = home_url('/write-a-review/') . '?product_id=' . $current_product_id;
         ?>
-        <?php echo 'REVIEWS: ' . $review_count; ?>
-
+        
         <?php if ($review_count > 0) : ?>
             <!-- HAS REVIEWS -->
             <div class="reviews-header-section" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px;">
