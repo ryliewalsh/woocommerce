@@ -1897,14 +1897,6 @@ foreach ($tabs as $key => $tab) :
                                 $rating_count++;
                             }
                         }
-                        $average_rating = $rating_count > 0 ? round($total_rating / $rating_count, 2) : 0;
-                        
-                        if ($rating_count > 0) {
-                            echo '<div class="star-rating" style="float: right; font-size: 1em; color: #ffc107;" role="img" aria-label="Rated ' . $average_rating . ' out of 5">';
-                            echo '<span style="font-size: 20px;">' . str_repeat('⭐', round($average_rating)) . '</span>';
-                            echo ' <span style="color: #666; font-size: 16px;">(' . $average_rating . ' average)</span>';
-                            echo '</div>';
-                        }
                         
                         printf(
                             _n('%d review for this series', '%d reviews for this series', $review_count, 'woocommerce'),
@@ -1930,12 +1922,11 @@ foreach ($tabs as $key => $tab) :
                                             </span>
                                         </div>
                                     <?php endif; ?>
-                                    
-                                    <?php if ($rating) : ?>
-                                    <div class="star-rating" role="img" aria-label="Rated <?php echo $rating; ?> out of 5" style="margin-bottom: 10px; color: #ffc107; font-size: 18px;">
-                                       
-                                    </div>
-                                    <?php endif; ?>
+                                   <?php if ( $rating ) : ?>
+    <div style="margin-bottom:10px;">
+        <?php echo wc_get_rating_html( $rating ); ?>
+    </div>
+<?php endif; ?>
                                     
                                     <p class="meta" style="margin: 0 0 10px 0; font-size: 14px; color: #666;">
                                         <strong class="woocommerce-review__author" style="color: #2c3e50; font-size: 16px;">
@@ -2137,8 +2128,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 tabName = 'reviews';
             } else if (hash === '#description' || hash === '#tab-description') {
                 tabName = 'description';
-            } else if (hash === '#assembly' || hash === '#tab-assembly') {
-                tabName = 'assembly';
+            } else if (hash === '#assenb' || hash === '#tab-assembly') {
+                tabName = 'qa';
             }
             
             if (tabName) {
