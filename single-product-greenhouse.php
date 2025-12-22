@@ -1326,12 +1326,14 @@ if ($attachment_ids) :
             <div class="grandio-product-summary">
                 <h1 class="grandio-product-title"><?php the_title(); ?></h1>
                
-                <a href="#reviews" class="grandio-product-rating scroll-to-reviews">
-                     <?php if ($product->get_rating_count()) : ?>
-   
+               <a href="#reviews" class="grandio-product-rating scroll-to-reviews">
+    <?php if ( $product->get_rating_count() ) : ?>
         <?php woocommerce_template_single_rating(); ?>
-    </a>
-<?php endif; ?>
+    <?php else : ?>
+        <span class="no-reviews-yet">No reviews yet</span>
+    <?php endif; ?>
+</a>
+
                 <div class="grandio-product-price">
                     <?php echo $product->get_price_html(); ?>
                 </div>
@@ -1789,7 +1791,6 @@ function render_compact_product_card($cross_product) {
     </div>
 </div>
 <?php endif; ?>
-
 <?php if (!empty($recommended_products)) : ?>
 <div class="package-section recommended-section">
     <h3 class="package-section-title">
@@ -1808,28 +1809,31 @@ function render_compact_product_card($cross_product) {
 </div>
 <?php endif; ?>
             
-            <!-- Sticky Tabs Navigation -->
-            <div class="grandio-sticky-tabs" id="stickyTabsNav">
-                <ul class="grandio-tabs-nav">
-                    <li><a href="#tab-description" class="tab-link active" data-tab="description">
-                        <svg width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        Description
-                    </a></li>
-                    <li><a href="#tab-additional_information" class="tab-link" data-tab="additional_information">
-                        <svg width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                        Additional Info
-                    </a></li>
-                    <li><a href="#tab-reviews" class="tab-link" data-tab="reviews">
-                        <svg width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        Reviews
-                    </a></li>
-                </ul>
-            </div>
-            
-            <!-- Product Tabs Content -->
-            <div class="grandio-product-tabs">
-             <?php
+<!-- Sticky Tabs Navigation -->
+<div class="grandio-sticky-tabs" id="stickyTabsNav">
+    <ul class="grandio-tabs-nav">
+        <li><a href="#tab-description" class="tab-link active" data-tab="description">
+            <svg width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Description
+        </a></li>
+        <li><a href="#tab-assembly" class="tab-link" data-tab="assembly">
+            <svg width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            Additional Info
+        </a></li>
+        <li><a href="#tab-reviews" class="tab-link" data-tab="reviews">
+            <svg width="20" height="20" style="display:inline-block;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Reviews
+        </a></li>
+    </ul>
+</div>
+
+<!-- Product Tabs Content -->
+<div class="grandio-product-tabs">
+<?php
 $tabs = apply_filters('woocommerce_product_tabs', array());
+echo '<pre>';
+print_r(array_keys($tabs));
+echo '</pre>';
 
 // Store the ACTUAL current product ID before any loops
 $actual_current_product_id = $product->get_id();
@@ -1851,11 +1855,12 @@ foreach ($tabs as $key => $tab) :
         // Get all products in same category
         $products_in_category = array($current_product_id);
         
-        if (!empty($product_cats)) {
-            $products_in_category = get_posts(array(
+        if (!empty($product_cats) && !is_wp_error($product_cats)) {
+            $category_products = get_posts(array(
                 'post_type' => 'product',
                 'posts_per_page' => -1,
                 'fields' => 'ids',
+                'post_status' => 'publish',
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'product_cat',
@@ -1864,40 +1869,50 @@ foreach ($tabs as $key => $tab) :
                     )
                 )
             ));
+            
+            if (!empty($category_products)) {
+                $products_in_category = $category_products;
+            }
         }
         
-        // Get all reviews from category products using get_comments
-        $all_category_reviews = get_comments(array(
-            'post__in' => $products_in_category,
-            'status' => 'approve',
-            'type' => 'review',
-            'orderby' => 'comment_date_gmt',
-            'order' => 'DESC',
-        ));
+        // Get all reviews from category products
+      $all_category_reviews = get_comments(array(
+    'post_id' => $current_product_id,
+    'status' => 'approve',
+    'type' => 'review',
+));
+
         
-        // Also try to get comments with empty type (some WooCommerce versions use this)
+        // If no reviews with type 'review', try empty type
         if (empty($all_category_reviews)) {
             $all_category_reviews = get_comments(array(
                 'post__in' => $products_in_category,
                 'status' => 'approve',
-                'type' => '', // Empty type
+                'type' => '',
                 'orderby' => 'comment_date_gmt',
                 'order' => 'DESC',
             ));
+            
+            // Filter to only include comments with ratings
+            $all_category_reviews = array_filter($all_category_reviews, function($comment) {
+                $rating = get_comment_meta($comment->comment_ID, 'rating', true);
+                return !empty($rating);
+            });
         }
         
         $review_count = count($all_category_reviews);
         
         // Get category name
         $cats = wp_get_post_terms($current_product_id, 'product_cat', array('fields' => 'names'));
-        $category_name = !empty($cats) ? esc_html($cats[0]) : 'Greenhouse';
+        $category_name = !empty($cats) && !is_wp_error($cats) ? esc_html($cats[0]) : 'Greenhouse';
         
         // Build review page URL
         $review_page_url = home_url('/write-a-review/') . '?product_id=' . $current_product_id;
         ?>
-        
+        <?php echo 'REVIEWS: ' . $review_count; ?>
+
         <?php if ($review_count > 0) : ?>
-            <!-- HAS REVIEWS - Show Header with Button -->
+            <!-- HAS REVIEWS -->
             <div class="reviews-header-section" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px;">
                 <div class="shared-reviews-notice" style="flex: 1; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #2196f3; padding: 20px; border-radius: 8px;">
                     <div style="display: flex; align-items: center; gap: 15px;">
@@ -1916,7 +1931,6 @@ foreach ($tabs as $key => $tab) :
                 </div>
             </div>
             
-            <!-- DISPLAY ALL CATEGORY REVIEWS -->
             <div id="reviews" class="woocommerce-Reviews">
                 <div id="comments">
                     <h2 class="woocommerce-Reviews-title" style="font-size: 28px; margin: 0 0 25px 0; color: #2c3e50;">
@@ -1958,6 +1972,15 @@ foreach ($tabs as $key => $tab) :
                                     <?php echo get_avatar($comment, 60, '', '', array('class' => 'avatar')); ?>
                                 </div>
                                 <div class="comment-text" style="flex: 1;">
+                                    <!-- Product Name Badge at Top -->
+                                    <?php if ($product_reviewed) : ?>
+                                        <div style="margin-bottom: 12px;">
+                                            <span style="display: inline-block; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); color: #1976d2; padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: 600; border: 2px solid #90caf9;">
+                                                📦 <?php echo esc_html($product_reviewed->post_title); ?>
+                                            </span>
+                                        </div>
+                                    <?php endif; ?>
+                                    
                                     <?php if ($rating) : ?>
                                     <div class="star-rating" role="img" aria-label="Rated <?php echo $rating; ?> out of 5" style="margin-bottom: 10px; color: #ffc107; font-size: 18px;">
                                         <?php echo str_repeat('⭐', intval($rating)); ?>
@@ -1972,11 +1995,6 @@ foreach ($tabs as $key => $tab) :
                                         <time class="woocommerce-review__published-date" datetime="<?php echo get_comment_date('c', $comment); ?>">
                                             <?php echo get_comment_date('', $comment); ?>
                                         </time>
-                                        <?php if ($product_reviewed && $product_reviewed->ID !== $current_product_id) : ?>
-                                            <span style="display: inline-block; background: #e3f2fd; color: #1976d2; padding: 4px 10px; border-radius: 4px; font-size: 12px; margin-left: 10px; font-weight: 600;">
-                                                ✓ Verified Purchase: <?php echo esc_html($product_reviewed->post_title); ?>
-                                            </span>
-                                        <?php endif; ?>
                                     </p>
                                     
                                     <div class="description" style="color: #555; line-height: 1.8;">
@@ -2006,99 +2024,8 @@ foreach ($tabs as $key => $tab) :
                 </div>
             </div>
             
-            
-            <!-- DISPLAY ALL CATEGORY REVIEWS -->
-            <div id="reviews" class="woocommerce-Reviews">
-                <div id="comments">
-                    <h2 class="woocommerce-Reviews-title" style="font-size: 28px; margin: 0 0 25px 0; color: #2c3e50;">
-                        <?php
-                        // Calculate average rating
-                        $total_rating = 0;
-                        $rating_count = 0;
-                        foreach ($all_category_reviews as $review) {
-                            $rating = get_comment_meta($review->comment_ID, 'rating', true);
-                            if ($rating) {
-                                $total_rating += $rating;
-                                $rating_count++;
-                            }
-                        }
-                        $average_rating = $rating_count > 0 ? round($total_rating / $rating_count, 2) : 0;
-                        
-                        if ($rating_count > 0) {
-                            echo '<div class="star-rating" style="float: right; font-size: 1em; color: #ffc107;" role="img" aria-label="Rated ' . $average_rating . ' out of 5">';
-                            echo '<span style="font-size: 20px;">' . str_repeat('⭐', round($average_rating)) . '</span>';
-                            echo ' <span style="color: #666; font-size: 16px;">(' . $average_rating . ' average)</span>';
-                            echo '</div>';
-                        }
-                        
-                        printf(
-                            _n('%d review for this series', '%d reviews for this series', $review_count, 'woocommerce'),
-                            $review_count
-                        );
-                        ?>
-                    </h2>
-
-                    <ol class="commentlist" style="list-style: none; padding: 0; margin: 0;">
-                        <?php foreach ($all_category_reviews as $comment) : 
-                            $rating = get_comment_meta($comment->comment_ID, 'rating', true);
-                            $product_reviewed = get_post($comment->comment_post_ID);
-                        ?>
-                        <li class="review" id="comment-<?php echo $comment->comment_ID; ?>" style="margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px solid #e0e0e0;">
-                            <div class="comment_container" style="display: flex; gap: 20px;">
-                                <div class="comment-avatar">
-                                    <?php echo get_avatar($comment, 60, '', '', array('class' => 'avatar')); ?>
-                                </div>
-                                <div class="comment-text" style="flex: 1;">
-                                    <?php if ($rating) : ?>
-                                    <div class="star-rating" role="img" aria-label="Rated <?php echo $rating; ?> out of 5" style="margin-bottom: 10px; color: #ffc107; font-size: 18px;">
-                                        <?php echo str_repeat('⭐', intval($rating)); ?>
-                                    </div>
-                                    <?php endif; ?>
-                                    
-                                    <p class="meta" style="margin: 0 0 10px 0; font-size: 14px; color: #666;">
-                                        <strong class="woocommerce-review__author" style="color: #2c3e50; font-size: 16px;">
-                                            <?php echo esc_html($comment->comment_author); ?>
-                                        </strong>
-                                        <span class="woocommerce-review__dash"> – </span>
-                                        <time class="woocommerce-review__published-date" datetime="<?php echo get_comment_date('c', $comment); ?>">
-                                            <?php echo get_comment_date('', $comment); ?>
-                                        </time>
-                                        <?php if ($product_reviewed && $product_reviewed->ID !== $current_product_id) : ?>
-                                            <span style="display: inline-block; background: #e3f2fd; color: #1976d2; padding: 4px 10px; border-radius: 4px; font-size: 12px; margin-left: 10px; font-weight: 600;">
-                                                ✓ Verified Purchase: <?php echo esc_html($product_reviewed->post_title); ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </p>
-                                    
-                                    <div class="description" style="color: #555; line-height: 1.8;">
-                                        <p style="margin: 0;"><?php echo wp_kses_post($comment->comment_content); ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <?php endforeach; ?>
-                    </ol>
-                    
-                    <!-- Write Review CTA at Bottom -->
-                    <div style="text-align: center; margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 8px;">
-                        <p style="margin: 0 0 20px 0; font-size: 16px; color: #555;">
-                            Have you used this product? Share your experience with other customers!
-                        </p>
-                        <a href="<?php echo esc_url($review_page_url); ?>" 
-                           class="write-review-btn-footer" 
-                           style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white; padding: 14px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                            </svg>
-                            Write a Review- ADD LINK
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
         <?php else : ?>
-            <!-- NO REVIEWS - Call to Action -->
+            <!-- NO REVIEWS -->
             <div class="no-reviews-notice" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border-left: 4px solid #ff9800; padding: 40px; margin-bottom: 30px; border-radius: 12px; text-align: center;">
                 <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ff9800" stroke-width="2" style="margin-bottom: 25px;">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
@@ -2107,7 +2034,7 @@ foreach ($tabs as $key => $tab) :
                     No Reviews Yet for Our <?php echo $category_name; ?> Collection
                 </h3>
                 <p style="font-size: 18px; color: #555; margin: 0 0 30px 0; line-height: 1.8; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    Be the first to share your experience with this product! Your review helps other customers make informed decisions.- ADD lINK
+                    Be the first to share your experience with this product! Your review helps other customers make informed decisions.
                 </p>
                 <a href="<?php echo esc_url($review_page_url); ?>" 
                    class="write-review-btn-primary" 
@@ -2116,13 +2043,13 @@ foreach ($tabs as $key => $tab) :
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
-                    Write the First Review- ADD LINK
+                    Write the First Review
                 </a>
             </div>
         <?php endif; ?>
     
     <?php else : ?>
-        <!-- REGULAR TAB CONTENT (Description, Additional Info, etc.) -->
+        <!-- REGULAR TAB CONTENT -->
         <?php
         if (isset($tab['callback'])) {
             call_user_func($tab['callback'], $key, $tab);
@@ -2132,10 +2059,8 @@ foreach ($tabs as $key => $tab) :
     
 </div>
 <?php endforeach; ?>
-            </div>
-            
+</div>
         </div>
-        
     </div>
     
     <?php endwhile; ?>
@@ -2265,8 +2190,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 tabName = 'reviews';
             } else if (hash === '#description' || hash === '#tab-description') {
                 tabName = 'description';
-            } else if (hash === '#additional_information' || hash === '#tab-additional_information') {
-                tabName = 'additional_information';
+            } else if (hash === '#assembly' || hash === '#tab-assembly') {
+                tabName = 'assembly';
             }
             
             if (tabName) {
