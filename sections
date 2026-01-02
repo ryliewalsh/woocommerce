@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Card Sale Banner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .giftcard-promo-banner {
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 50%, #c0392b 100%);
+            padding: clamp(35px, 5vw, 60px) clamp(20px, 3vw, 40px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background pattern */
+        .giftcard-promo-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px);
+            animation: slidepattern 20s linear infinite;
+        }
+
+        @keyframes slidepattern {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(70px); }
+        }
+
+        .giftcard-banner-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .giftcard-banner-content {
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .giftcard-promo-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #ffffff;
+            padding: clamp(6px, 1vw, 10px) clamp(15px, 2vw, 25px);
+            border-radius: 30px;
+            font-size: clamp(12px, 2vw, 16px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: clamp(15px, 2vw, 20px);
+            animation: pulsebadge 2s ease-in-out infinite;
+            color: #ffffff;
+        }
+
+        @keyframes pulsebadge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .giftcard-main-heading {
+            font-size: clamp(32px, 6vw, 56px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: clamp(10px, 1.5vw, 15px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            color: #ffffff;
+        }
+
+        .giftcard-discount-highlight {
+            display: inline-block;
+            background: #ffffff;
+            color: #c0392b;
+            padding: clamp(8px, 1.5vw, 15px) clamp(20px, 3vw, 35px);
+            border-radius: 10px;
+            font-size: clamp(40px, 7vw, 70px);
+            font-weight: 800;
+            line-height: 1;
+            margin: clamp(15px, 2vw, 20px) 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transform: rotate(-2deg);
+        }
+
+        .giftcard-subheading {
+            font-size: clamp(18px, 3vw, 28px);
+            font-weight: 600;
+            margin-bottom: clamp(20px, 3vw, 30px);
+            line-height: 1.3;
+            color: #ffffff;
+        }
+
+        .giftcard-steps-container {
+            display: flex;
+            gap: clamp(15px, 2vw, 25px);
+            justify-content: center;
+            align-items: center;
+            margin: clamp(25px, 3vw, 35px) 0;
+            flex-wrap: wrap;
+        }
+
+        .giftcard-step-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: clamp(15px, 2vw, 25px) clamp(20px, 3vw, 30px);
+            min-width: clamp(150px, 20vw, 200px);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .giftcard-step-box:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .giftcard-step-number {
+            display: inline-block;
+            width: clamp(30px, 4vw, 40px);
+            height: clamp(30px, 4vw, 40px);
+            background: #ffffff;
+            color: #c0392b;
+            border-radius: 50%;
+            font-size: clamp(16px, 2.5vw, 20px);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto clamp(8px, 1.5vw, 12px);
+        }
+
+        .giftcard-step-text {
+            font-size: clamp(14px, 2vw, 18px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+        }
+
+        .giftcard-code-box {
+            display: inline-block;
+            background: #ffffff;
+            color: #c0392b;
+            padding: clamp(12px, 2vw, 18px) clamp(25px, 4vw, 40px);
+            border-radius: 10px;
+            font-size: clamp(20px, 4vw, 32px);
+            font-weight: 800;
+            letter-spacing: 3px;
+            border: 3px dashed #c0392b;
+            margin: clamp(15px, 2vw, 20px) 0;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .giftcard-cta-button {
+            display: inline-block;
+            background: #ffffff;
+            color: #c0392b;
+            padding: clamp(15px, 2.5vw, 20px) clamp(35px, 5vw, 50px);
+            border-radius: 50px;
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            margin: clamp(20px, 3vw, 30px) 0 clamp(10px, 2vw, 15px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 3px solid #ffffff;
+        }
+
+        .giftcard-cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+            background: #2d5a3d;
+            color: #ffffff;
+        }
+
+        .giftcard-cta-button:active {
+            transform: translateY(-1px);
+        }
+
+        .giftcard-disclaimer {
+            font-size: clamp(12px, 2vw, 14px);
+            font-weight: 600;
+            margin-top: clamp(15px, 2vw, 20px);
+            opacity: 0.95;
+            color: #ffffff;
+        }
+
+        .giftcard-arrow {
+            font-size: clamp(20px, 3vw, 28px);
+            opacity: 0.7;
+            color: #ffffff;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .giftcard-steps-container {
+                flex-direction: column;
+            }
+
+            .giftcard-step-box {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .giftcard-arrow {
+                transform: rotate(90deg);
+            }
+
+            .giftcard-discount-highlight {
+                transform: rotate(-1deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="giftcard-promo-banner">
+        <div class="giftcard-banner-container">
+            <div class="giftcard-banner-content">
+                
+                
+                <h1 class="giftcard-main-heading">Give the Gift of Greenery</h1>
+                
+                <div class="giftcard-discount-highlight">10% OFF</div>
+                
+                <h2 class="giftcard-subheading">All Gift Cards</h2>
+                
+                <div class="giftcard-steps-container">
+                    <div class="giftcard-step-box">
+                        <div class="giftcard-step-number">1</div>
+                        <div class="giftcard-step-text">Choose Amount</div>
+                    </div>
+                    
+                    <span class="giftcard-arrow">→</span>
+                    
+                    <div class="giftcard-step-box">
+                        <div class="giftcard-step-number">2</div>
+                        <div class="giftcard-step-text">Add to Cart</div>
+                    </div>
+                    
+                    <span class="giftcard-arrow">→</span>
+                    
+                    <div class="giftcard-step-box">
+                        <div class="giftcard-step-number">3</div>
+                        <div class="giftcard-step-text">Use Code</div>
+                    </div>
+                </div>
+                
+                <div class="giftcard-code-box">GIFT10</div>
+                
+                <a href="/gift-card" class="giftcard-cta-button">Shop Gift Cards →</a>
+                
+                <p class="giftcard-disclaimer">*Limited time offer. Maximum 2 gift cards per customer at discounted rate.</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Premium Upgrade Banner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .premium-banner {
+            background: #ffffff;
+            padding: clamp(40px, 5vw, 70px) clamp(20px, 3vw, 40px);
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid #2d5a3d;
+            border-bottom: 5px solid #2d5a3d;
+        }
+
+        .banner-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .banner-content {
+            text-align: center;
+            color: #2d5a3d;
+        }
+
+        .main-heading {
+            font-size: clamp(32px, 6vw, 54px);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: clamp(15px, 2vw, 25px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #2d5a3d;
+        }
+
+        .subheading {
+            font-size: clamp(20px, 3.5vw, 32px);
+            font-weight: 700;
+            margin-bottom: clamp(25px, 3vw, 35px);
+            line-height: 1.4;
+            color: #1a472a;
+        }
+
+        .steps-container {
+            display: flex;
+            gap: clamp(20px, 3vw, 35px);
+            justify-content: center;
+            align-items: center;
+            margin: clamp(30px, 4vw, 45px) 0;
+            flex-wrap: wrap;
+        }
+
+        .step-box {
+            background: #f8f9fa;
+            border: 3px solid #2d5a3d;
+            border-radius: 10px;
+            padding: clamp(20px, 3vw, 30px) clamp(25px, 4vw, 40px);
+            min-width: clamp(160px, 22vw, 220px);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: clamp(40px, 5vw, 50px);
+            height: clamp(40px, 5vw, 50px);
+            background: linear-gradient(135deg, #2d5a3d 0%, #1a472a 100%);
+            color: #ffffff;
+            border-radius: 50%;
+            font-size: clamp(20px, 3.5vw, 26px);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto clamp(12px, 2vw, 16px);
+        }
+
+        .step-text {
+            font-size: clamp(16px, 2.5vw, 20px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #2d5a3d;
+        }
+
+        .disclaimer {
+            font-size: clamp(13px, 2vw, 15px);
+            font-weight: 600;
+            margin-top: clamp(15px, 2vw, 20px);
+            opacity: 0.8;
+            font-style: italic;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #2d5a3d;
+        }
+
+        .arrow {
+            font-size: clamp(24px, 4vw, 32px);
+            opacity: 0.5;
+            font-weight: 300;
+            color: #2d5a3d;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .steps-container {
+                flex-direction: column;
+            }
+
+            .step-box {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="premium-banner">
+        <div class="banner-container">
+            <div class="banner-content">
+               
+                
+                <h1 class="main-heading">Free Premium Upgrade </h1>
+                
+               
+                
+                <h2 class="subheading">Premium Accessories Bundle<br>With Any Greenhouse Purchase</h2>
+                
+                <div class="steps-container">
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Find Your Fit</div>
+                    </div>
+                    
+                    <span class="arrow">→</span>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Add to Cart</div>
+                    </div>
+                    
+                    <span class="arrow">→</span>
+                    
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Use Code: FREEUPGRADE</div>
+                    </div>
+  <a href="/greenhouses" class="giftcard-cta-button">Shop Greenhouses Now →</a>
+                </div>
+                
+           
+                
+                <p class="disclaimer">*Add just the greenhouse (not the premium package) to cart and apply code to receive free upgrade.</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Black Friday Greenhouse Sale 2025 - Free Upgrades Worth $1,310 | Grandio</title>
+    <meta name="description" content="Black Friday greenhouse deals! Free upgrade packages worth up to $1,310 on Grandio aluminum greenhouse kits. Factory-direct pricing on Element, Ascent, Elite & Summit series. Limited inventory - shop now!">
+    
+    <!-- Open Graph for Social Sharing -->
+    <meta property="og:title" content="Black Friday Greenhouse Sale - Free Upgrades Worth $1,310">
+    <meta property="og:description" content="Factory-direct Black Friday deals on premium aluminum greenhouse kits. Free upgrade packages included!">
+    <meta property="og:image" content="https://www.grandiogreenhouses.com/wp-content/uploads/2022/10/Elite_nbg.avif">
+    <meta property="og:url" content="https://www.grandiogreenhouses.com/black-friday-2">
+    <meta property="og:type" content="website">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.grandiogreenhouses.com/black-friday-2">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factory Direct Black Friday Clearance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+        }
+
+        .carousel-container {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Image and product details section - white background */
+        .slide-product-section {
+            background: #ffffff;
+            padding: clamp(30px, 5vw, 60px) clamp(20px, 3vw, 40px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(20px, 3vw, 30px);
+        }
+
+        .product-image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-image {
+            max-width: 100%;
+            max-height: clamp(250px, 40vh, 450px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .product-details {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-size: clamp(18px, 3vw, 24px);
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: clamp(12px, 2vw, 16px);
+        }
+
+        .deal-text {
+            font-size: clamp(16px, 3vw, 20px);
+            font-weight: 700;
+            color: #1a472a;
+            margin-bottom: clamp(8px, 1.5vw, 12px);
+        }
+
+        .savings-text {
+            font-size: clamp(20px, 4vw, 32px);
+            font-weight: 800;
+            color: #e74c3c;
+            margin-bottom: clamp(12px, 2vw, 20px);
+        }
+
+        .shop-button {
+            background: linear-gradient(135deg, #2d5a3d 0%, #1a472a 100%);
+            color: #ffffff;
+            border: none;
+            padding: clamp(12px, 2vw, 16px) clamp(30px, 5vw, 50px);
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: clamp(14px, 2.5vw, 18px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(29, 90, 61, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Open Sans', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .shop-button:hover {
+            background: linear-gradient(135deg, #1a472a 0%, #0d3219 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 90, 61, 0.4);
+        }
+
+        /* Text section - colored backgrounds */
+        .slide-text-section {
+            padding: clamp(40px, 8vw, 80px) clamp(20px, 4vw, 40px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: clamp(250px, 40vh, 350px);
+        }
+
+        /* Green theme backgrounds */
+        .carousel-slide:nth-child(1) .slide-text-section {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            color: white;
+        }
+
+        .carousel-slide:nth-child(2) .slide-text-section {
+            background: linear-gradient(135deg, #225533 0%, #387449 100%);
+            color: white;
+        }
+
+        .carousel-slide:nth-child(3) .slide-text-section {
+            background: linear-gradient(135deg, #153b22 0%, #265e38 100%);
+            color: white;
+        }
+
+        .carousel-slide:nth-child(4) .slide-text-section {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .carousel-slide:nth-child(5) .slide-text-section {
+            background: linear-gradient(135deg, #1d4e2f 0%, #32784a 100%);
+            color: white;
+        }
+
+        .slide-title {
+            font-size: clamp(24px, 6vw, 42px);
+            font-weight: 700;
+            margin-bottom: clamp(12px, 2.5vw, 20px);
+            line-height: 1.2;
+            max-width: 900px;
+            padding: 0 15px;
+        }
+
+        .slide-subtitle {
+            font-size: clamp(16px, 3.5vw, 22px);
+            margin-bottom: clamp(10px, 2vw, 15px);
+            opacity: 0.95;
+            font-weight: 500;
+            max-width: 800px;
+            padding: 0 15px;
+        }
+
+        .slide-description {
+            font-size: clamp(14px, 3vw, 18px);
+            max-width: 700px;
+            opacity: 0.9;
+            line-height: 1.7;
+            padding: 0 15px;
+        }
+
+        .urgency-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: clamp(8px, 1.5vw, 10px) clamp(15px, 3vw, 25px);
+            border-radius: 30px;
+            font-size: clamp(12px, 2.5vw, 15px);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: clamp(12px, 2.5vw, 20px);
+            letter-spacing: 1px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Minimal Navigation Buttons */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: clamp(35px, 6vw, 45px);
+            height: clamp(35px, 6vw, 45px);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: clamp(16px, 3vw, 20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            color: #1a472a;
+            opacity: 0.8;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .carousel-nav:hover {
+            background: rgba(255,255,255,1);
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav.prev {
+            left: clamp(10px, 2vw, 20px);
+        }
+
+        .carousel-nav.next {
+            right: clamp(10px, 2vw, 20px);
+        }
+
+        /* Minimal Dots Navigation */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: clamp(6px, 1.5vw, 8px);
+            padding: clamp(15px, 3vw, 25px) 0;
+            background: #f8f9fa;
+        }
+
+        .dot {
+            width: clamp(6px, 1.5vw, 8px);
+            height: clamp(6px, 1.5vw, 8px);
+            border-radius: 50%;
+            background: rgba(26, 71, 42, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0;
+        }
+
+        .dot.active {
+            background: #1a472a;
+            width: clamp(18px, 4vw, 24px);
+            border-radius: 4px;
+        }
+
+        .dot:hover {
+            background: rgba(26, 71, 42, 0.6);
+        }
+
+        /* Mobile Specific Optimizations */
+        @media (max-width: 768px) {
+            .slide-product-section {
+                padding: 20px;
+            }
+
+            .slide-image {
+                max-height: 200px;
+            }
+
+            .product-name {
+                font-size: 16px;
+            }
+
+            .deal-text {
+                font-size: 14px;
+            }
+
+            .savings-text {
+                font-size: 18px;
+            }
+
+            .shop-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .slide-text-section {
+                padding: 30px 20px;
+                min-height: 300px;
+            }
+
+            .slide-title {
+                font-size: clamp(20px, 6vw, 28px);
+            }
+
+            .slide-subtitle {
+                font-size: clamp(14px, 4vw, 18px);
+            }
+
+            .slide-description {
+                font-size: clamp(13px, 3.5vw, 15px);
+            }
+
+            .carousel-nav {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            .carousel-nav.prev {
+                left: 8px;
+            }
+
+            .carousel-nav.next {
+                right: 8px;
+            }
+
+            .dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .dot.active {
+                width: 20px;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .slide-product-section {
+                padding: 15px;
+            }
+
+            .slide-image {
+                max-height: 150px;
+            }
+
+            .product-name {
+                font-size: 14px;
+            }
+
+            .deal-text {
+                font-size: 12px;
+            }
+
+            .savings-text {
+                font-size: 16px;
+            }
+
+            .slide-text-section {
+                padding: 25px 15px;
+                min-height: 280px;
+            }
+
+            .slide-title {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            .slide-subtitle {
+                font-size: 14px;
+            }
+
+            .slide-description {
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .urgency-badge {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <div class="carousel-wrapper">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- Slide 1: Factory Direct -->
+                <div class="carousel-slide">
+                    <div class="slide-product-section">
+                        <div class="product-image-container">
+                            <img src="/wp-content/uploads/2022/10/Elite_nbg.avif" alt="Grandio Elite Greenhouse" class="slide-image">
+                        </div>
+                        <div class="product-details">
+                            <h3 class="product-name">Grandio Elite Greenhouse</h3>
+                            <div class="deal-text">FREE Upgrade Package</div>
+                            <div class="savings-text">$270 - $555 Value</div>
+                            <a href="/product-category/elite/" class="shop-button">Shop This Model</a>
+                        </div>
+                    </div>
+                    <div class="slide-text-section">
+                        <h2 class="slide-title">Factory-Direct Black Friday Clearance</h2>
+                        <p class="slide-subtitle">Skip the Middleman—Save Big</p>
+                        <p class="slide-description">Pay only for premium quality, not dealer markups or distribution fees. Your dollar goes straight to craftsmanship, not overhead.</p>
+                        <span class="urgency-badge">Factory Direct Pricing</span>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Better Value -->
+                <div class="carousel-slide">
+                    <div class="slide-product-section">
+                        <div class="product-image-container">
+                            <img src="/wp-content/uploads/2025/08/Untitled-design-11.avif" alt="Grandio Summit Greenhouse" class="slide-image">
+                        </div>
+                        <div class="product-details">
+                            <h3 class="product-name">Grandio Summit Greenhouse</h3>
+                            <div class="deal-text">FREE Upgrade Package</div>
+                            <div class="savings-text">$340 - $1,310 Value</div>
+                            <a href="/product-category/summit" class="shop-button">Shop This Model</a>
+                        </div>
+                    </div>
+                    <div class="slide-text-section">
+                        <h2 class="slide-title">Better Value Than Competitors</h2>
+                        <p class="slide-subtitle">Premium Quality at a Fraction of Retail</p>
+                        <p class="slide-description">Same or superior products at prices that can't be matched. We guarantee you're getting the best value for your investment.</p>
+                        <span class="urgency-badge">Price Match Guaranteed</span>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Limited Inventory -->
+                <div class="carousel-slide">
+                    <div class="slide-product-section">
+                        <div class="product-image-container">
+                            <img src="/wp-content/uploads/2022/10/Untitled-design-15.avif" alt="Grandio Element Greenhouse" class="slide-image">
+                        </div>
+                        <div class="product-details">
+                            <h3 class="product-name">Grandio Element Greenhouse</h3>
+                            <div class="deal-text">FREE Upgrade Package</div>
+                            <div class="savings-text">$220 - $399 Value</div>
+                            <a href="/product/grandio-element-6x4/" class="shop-button">Shop This Model</a>
+                        </div>
+                    </div>
+                    <div class="slide-text-section">
+                        <h2 class="slide-title">Limited Inventory Overstock Blowout</h2>
+                        <p class="slide-subtitle">Hand-Selected Surplus from the Factory Floor</p>
+                        <p class="slide-description">First-come, first-served. These exclusive deals won't last—grab yours before they're gone forever.</p>
+                        <span class="urgency-badge">While Supplies Last</span>
+                    </div>
+                </div>
+
+           
+
+                <!-- Slide 5: Financing -->
+                <div class="carousel-slide">
+                    <div class="slide-product-section">
+                        <div class="product-image-container">
+                            <img src="/wp-content/uploads/2022/10/ascent_8.avif" alt="Grandio Ascent Greenhouse" class="slide-image">
+                        </div>
+                        <div class="product-details">
+                            <h3 class="product-name">Grandio Ascent Greenhouse</h3>
+                            <div class="deal-text">FREE Upgrade Package</div>
+                            <div class="savings-text">$270 - $555 Value</div>
+                            <a href="/product-category/ascent" class="shop-button">Shop This Model</a>
+                        </div>
+                    </div>
+                    <div class="slide-text-section">
+                        <h2 class="slide-title">No Cash? No Problem.</h2>
+                        <p class="slide-subtitle">Flexible Monthly Payment Plans</p>
+                        <p class="slide-description">Don't let budget hold you back. Take advantage of factory-direct pricing with easy financing through Bread Pay.</p>
+                        <span class="urgency-badge">Financing Available</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minimal Navigation Buttons -->
+            <button class="carousel-nav prev" id="prevBtn" aria-label="Previous slide">‹</button>
+            <button class="carousel-nav next" id="nextBtn" aria-label="Next slide">›</button>
+        </div>
+
+        <!-- Minimal Dots Navigation -->
+        <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+
+    <script>
+        // Carousel functionality
+        const track = document.getElementById('carouselTrack');
+        const slides = track.children;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('carouselDots');
+        
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        let autoplayInterval;
+
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.classList.add('dot');
+            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = dotsContainer.children;
+
+        function updateCarousel() {
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update dots
+            Array.from(dots).forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+            resetAutoplay();
+        }
+
+        function resetAutoplay() {
+            clearInterval(autoplayInterval);
+            autoplayInterval = setInterval(nextSlide, 5000);
+        }
+
+        // Event listeners
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetAutoplay();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetAutoplay();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+                resetAutoplay();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+                resetAutoplay();
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        track.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        track.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const xDiff = touchStartX - touchEndX;
+            const yDiff = Math.abs(touchStartY - touchEndY);
+            
+            // Only trigger if horizontal swipe is dominant
+            if (Math.abs(xDiff) > yDiff) {
+                if (xDiff > 50) {
+                    nextSlide();
+                    resetAutoplay();
+                } else if (xDiff < -50) {
+                    prevSlide();
+                    resetAutoplay();
+                }
+            }
+        }
+
+        // Initialize
+        autoplayInterval = setInterval(nextSlide, 5000);
+
+        // Pause autoplay when user hovers (desktop only)
+        if (window.matchMedia("(hover: hover)").matches) {
+            track.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
+            track.addEventListener('mouseleave', resetAutoplay);
+        }
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Black Friday Greenhouse Sale 2025",
+  "description": "Factory-direct Black Friday deals on Grandio aluminum greenhouse kits with free upgrade packages worth up to $1,310",
+  "url": "https://www.grandiogreenhouses.com/black-friday-sale",
+  "mainEntity": {
+    "@type": "OfferCatalog",
+    "name": "Black Friday Greenhouse Deals",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Product",
+          "name": "Grandio Element Greenhouse Kit",
+          "image": "https://www.grandiogreenhouses.com/wp-content/uploads/2022/10/Untitled-design-15.avif",
+          "description": "Starter aluminum greenhouse kit with free upgrade package",
+          "brand": {
+            "@type": "Brand",
+            "name": "Grandio Greenhouses"
+          }
+        },
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "USD",
+          "price": "999.00"
+        },
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.grandiogreenhouses.com/product/grandio-element-6x4/"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Product",
+          "name": "Grandio Ascent Greenhouse Kit",
+          "image": "https://www.grandiogreenhouses.com/wp-content/uploads/2022/10/ascent_8.avif",
+          "description": "Mid-size aluminum greenhouse kit with free upgrade package",
+          "brand": {
+            "@type": "Brand",
+            "name": "Grandio Greenhouses"
+          }
+        },
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "USD",
+          "price": "2199.00"
+        },
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.grandiogreenhouses.com/product-category/ascent/"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Product",
+          "name": "Grandio Elite Greenhouse Kit",
+          "image": "https://www.grandiogreenhouses.com/wp-content/uploads/2022/10/Elite_nbg.avif",
+          "description": "Premium aluminum greenhouse kit with 10mm polycarbonate panels",
+          "brand": {
+            "@type": "Brand",
+            "name": "Grandio Greenhouses"
+          }
+        },
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "USD",
+          "price": "2899.00"
+        },
+        "availability": "https://schema.org/InStock",
+        "url": "/product/grandio-elite-8x8/"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Product",
+          "name": "Grandio Summit Greenhouse Kit",
+          "image": "https://www.grandiogreenhouses.com/wp-content/uploads/2025/08/Untitled-design-11.avif",
+          "description": "Large aluminum greenhouse kit with sliding doors",
+          "brand": {
+            "@type": "Brand",
+            "name": "Grandio Greenhouses"
+          }
+        },
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "USD",
+          "price": "3499.00"
+        },
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.grandiogreenhouses.com/product/grandio-summit-12x8/"
+      }
+    ]
+  }
+}
+</script>
+
+<!-- Your existing carousel script continues -->
+</body>
+</html>
