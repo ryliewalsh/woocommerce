@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grandio Greenhouses - In-Store Display & Delivery Policy</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Schema Markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Grandio Greenhouses",
+      "image": "https://www.grandiogreenhouses.com/wp-content/uploads/2025/09/logo.png",
+      "@id": "https://www.grandiogreenhouses.com",
+      "url": "https://www.grandiogreenhouses.com",
+      "telephone": "+18664488231",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "88 N Touchmark Way Ste 150",
+        "addressLocality": "Meridian",
+        "addressRegion": "ID",
+        "postalCode": "83642",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 43.6121,
+        "longitude": -116.3915
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:30",
+        "closes": "17:00"
+      },
+      "priceRange": "$$",
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "Local Pickup Discount",
+          "description": "Save 10% when you pick up your greenhouse order at our Meridian, ID showroom",
+          "availability": "https://schema.org/InStock",
+          "availableAtOrFrom": {
+            "@type": "Place",
+            "name": "Grandio Greenhouses Showroom",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "88 N Touchmark Way Ste 150",
+              "addressLocality": "Meridian",
+              "addressRegion": "ID",
+              "postalCode": "83642",
+              "addressCountry": "US"
+            }
+          },
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "0.90",
+            "priceCurrency": "USD",
+            "referenceQuantity": {
+              "@type": "QuantitativeValue",
+              "value": "1",
+              "unitText": "percentage of regular price"
+            }
+          },
+          "eligibleRegion": {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+              "@type": "GeoCoordinates",
+              "latitude": 43.6121,
+              "longitude": -116.3915
+            },
+            "geoRadius": "200 mi"
+          },
+          "businessFunction": "https://schema.org/Sell",
+          "itemOffered": {
+            "@type": "Product",
+            "name": "Grandio Greenhouse Kits",
+            "brand": {
+              "@type": "Brand",
+              "name": "Grandio"
+            },
+            "category": "Greenhouse Kits"
+          }
+        }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Greenhouse Display Models - Available for Delivery or Local Pickup",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Grandio Element Greenhouse Kit",
+              "description": "Compact aluminum greenhouse kit perfect for beginners",
+              "brand": {
+                "@type": "Brand",
+                "name": "Grandio"
+              },
+              "offers": {
+                "@type": "Offer",
+                "availability": "https://schema.org/InStock",
+                "availableAtOrFrom": {
+                  "@type": "Place",
+                  "name": "Grandio Greenhouses Showroom"
+                },
+                "businessFunction": "https://schema.org/LeaseOut",
+                "deliveryLeadTime": {
+                  "@type": "QuantitativeValue",
+                  "minValue": 3,
+                  "maxValue": 5,
+                  "unitCode": "DAY"
+                },
+                "shippingDetails": {
+                  "@type": "OfferShippingDetails",
+                  "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "USD"
+                  },
+                  "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "US"
+                  },
+                  "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "businessDays": {
+                      "@type": "OpeningHoursSpecification",
+                      "dayOfWeek": [
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday"
+                      ]
+                    },
+                    "transitTime": {
+                      "@type": "QuantitativeValue",
+                      "minValue": 5,
+                      "maxValue": 7,
+                      "unitCode": "DAY"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Grandio Ascent Greenhouse Kit",
+              "description": "Mid-size aluminum greenhouse with enhanced features",
+              "brand": {
+                "@type": "Brand",
+                "name": "Grandio"
+              },
+              "offers": {
+                "@type": "Offer",
+                "availability": "https://schema.org/InStock",
+                "availableAtOrFrom": {
+                  "@type": "Place",
+                  "name": "Grandio Greenhouses Showroom"
+                },
+                "businessFunction": "https://schema.org/LeaseOut",
+                "deliveryLeadTime": {
+                  "@type": "QuantitativeValue",
+                  "minValue": 3,
+                  "maxValue": 5,
+                  "unitCode": "DAY"
+                },
+                "shippingDetails": {
+                  "@type": "OfferShippingDetails",
+                  "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "USD"
+                  },
+                  "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "US"
+                  },
+                  "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "businessDays": {
+                      "@type": "OpeningHoursSpecification",
+                      "dayOfWeek": [
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday"
+                      ]
+                    },
+                    "transitTime": {
+                      "@type": "QuantitativeValue",
+                      "minValue": 3,
+                      "maxValue": 5,
+                      "unitCode": "DAY"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Grandio Elite Greenhouse Kit",
+              "description": "Premium aluminum greenhouse for serious gardeners",
+              "brand": {
+                "@type": "Brand",
+                "name": "Grandio"
+              },
+              "offers": {
+                "@type": "Offer",
+                "availability": "https://schema.org/InStock",
+                "availableAtOrFrom": {
+                  "@type": "Place",
+                  "name": "Grandio Greenhouses Showroom"
+                },
+                "businessFunction": "https://schema.org/LeaseOut",
+                "deliveryLeadTime": {
+                  "@type": "QuantitativeValue",
+                  "minValue": 3,
+                  "maxValue": 5,
+                  "unitCode": "DAY"
+                },
+                "shippingDetails": {
+                  "@type": "OfferShippingDetails",
+                  "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "USD"
+                  },
+                  "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "US"
+                  },
+                  "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "businessDays": {
+                      "@type": "OpeningHoursSpecification",
+                      "dayOfWeek": [
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday"
+                      ]
+                    },
+                    "transitTime": {
+                      "@type": "QuantitativeValue",
+                      "minValue": 5,
+                      "maxValue": 7,
+                      "unitCode": "DAY"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Grandio Summit Greenhouse Kit",
+              "description": "Ultimate large-scale aluminum greenhouse",
+              "brand": {
+                "@type": "Brand",
+                "name": "Grandio"
+              },
+              "offers": {
+                "@type": "Offer",
+                "availability": "https://schema.org/InStock",
+                "availableAtOrFrom": {
+                  "@type": "Place",
+                  "name": "Grandio Greenhouses Showroom"
+                },
+                "businessFunction": "https://schema.org/LeaseOut",
+                "deliveryLeadTime": {
+                  "@type": "QuantitativeValue",
+                  "minValue": 3,
+                  "maxValue": 5,
+                  "unitCode": "DAY"
+                },
+                "shippingDetails": {
+                  "@type": "OfferShippingDetails",
+                  "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "USD"
+                  },
+                  "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "US"
+                  },
+                  "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "businessDays": {
+                      "@type": "OpeningHoursSpecification",
+                      "dayOfWeek": [
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday"
+                      ]
+                    },
+                    "transitTime": {
+                      "@type": "QuantitativeValue",
+                      "minValue": 5,
+                      "maxValue": 7,
+                      "unitCode": "DAY"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: #f8f9fa;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d5016;
+            text-decoration: none;
+        }
+
+        .header-phone {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d5016;
+        }
+
+        .header-phone a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #2d5016;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4a7c2c;
+        }
+        
+        .policy-item {
+            background: #f9fdf9;
+            border-left: 4px solid #4a7c2c;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+            transition: transform 0.2s ease;
+        }
+        
+        .policy-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .policy-item h3 {
+            color: #2d5016;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .location-card {
+            background: #f9fdf9;
+            border: 2px solid #4a7c2c;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .location-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .location-card h3 {
+            color: #2d5016;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .location-detail {
+            margin: 10px 0;
+            font-size: 1.05rem;
+        }
+        
+        .location-detail strong {
+            color: #2d5016;
+            display: inline-block;
+            min-width: 80px;
+        }
+        
+        .store-image-container {
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .store-image {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .image-caption {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .models-list {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .models-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+        
+        .models-list li {
+            padding: 5px 0;
+        }
+        
+        .models-list li::before {
+            content: "✓";
+            color: #4a7c2c;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .contact-box {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .contact-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .phone {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .hours {
+            opacity: 0.9;
+        }
+        
+        .highlight {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #4a7c2c;
+        }
+        
+        .highlight strong {
+            color: #2d5016;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-box h4 {
+            color: #2d5016;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4a7c2c, transparent);
+            margin: 40px 0;
+        }
+        
+        .icon-feature {
+            display: flex;
+            align-items: flex-start;
+            margin: 15px 0;
+        }
+        
+        .icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #4a7c2c;
+            min-width: 30px;
+        }
+        
+        .availability-badge {
+            display: inline-block;
+            background: #4a7c2c;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        /* Font Awesome Icon Styling */
+        .fa-icon {
+            color: #4a7c2c;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .fa-icon-large {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #4a7c2c;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        .fa-icon-small {
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+        
+        .fa-icon-inline {
+            font-size: 1rem;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .policy-item, .location-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px;">
+                <h1>In-Store Display & Delivery Policy</h1>
+                <p>View our greenhouse models in person and order for delivery to your location</p>
+                <p style="margin-top: 10px; font-size: 1rem; font-weight: 600;"><i class="fa-solid fa-tag" style="margin-right: 8px;"></i>FREE Shipping + Tax-Free for Most Orders</p>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Main Info Section -->
+            <div class="section">
+                <h2 class="section-title">View Our Greenhouses In Person</h2>
+                
+                <div class="policy-item">
+                    <p style="font-size: 1.1rem;">Experience the quality and craftsmanship of Grandio Greenhouses firsthand! Visit our showroom locations to see our aluminum greenhouse kits on display. Each location features select models that you can examine, touch, and evaluate before making your purchase decision.</p>
+                </div>
+                
+                <div class="highlight">
+                    <strong>All greenhouse models on display are available in stock and ready to order.</strong> Items are pulled from our connected warehouse and prepared for delivery within 3-5 business days. Pickups are prioritized and processed within 24-48 hours.
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            
+            <!-- Showroom Locations -->
+            <div class="section">
+                <h2 class="section-title">Our Showroom Locations</h2>
+                
+                <!-- Main Showroom -->
+                <div class="location-card">
+                    <h3><i class="fa-solid fa-building fa-icon-small"></i> Main Showroom - Meridian, Idaho</h3>
+                    
+                    <!-- Store Image -->
+                    <div class="store-image-container">
+                        <img src="/wp-content/uploads/YOUR-STORE-IMAGE.jpg" alt="Grandio Greenhouses Showroom - Meridian, Idaho" class="store-image">
+                        <div class="image-caption">Visit our showroom to see all greenhouse models on display</div>
+                    </div>
+                    
+                    <div class="location-detail">
+                        <strong>Address:</strong> <a href="https://www.google.com/maps/dir/?api=1&destination=88+N+Touchmark+Way+Ste+150+Meridian+ID+83642" target="_blank" style="color: #2d5016; text-decoration: underline;" title="Get directions on Google Maps">88 N Touchmark Way Ste 150, Meridian, ID 83642 <i class="fa-solid fa-diamond-turn-right" style="font-size: 0.9rem; margin-left: 5px;"></i></a>
+                    </div>
+                    <div class="location-detail">
+                        <strong>Phone:</strong> <a href="tel:+18664488231" style="color: #2d5016; text-decoration: none;">(866) 448-8231</a>
+                    </div>
+                    <div class="location-detail">
+                        <strong>Hours:</strong> Monday - Friday, 8:30AM - 5:00PM MST
+                    </div>
+                    
+                    <div class="models-list">
+                        <strong style="color: #2d5016;">Models on Display:</strong>
+                        <ul>
+                            <li><strong>Grandio Element</strong> - One unit on display (6×4 to 6×12 sizes available to order)</li>
+                            <li><strong>Grandio Ascent</strong> - One unit on display (8×8 to 8×24 sizes available to order)</li>
+                            <li><strong>Grandio Elite</strong> - One unit on display (8×8 to 8×24 sizes available to order)</li>
+                            <li><strong>Grandio Summit</strong> - One unit on display (12×8 to 12×32 sizes available to order)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="availability-badge">✓ All Collections Available to Order</div>
+                </div>
+                
+                <!-- Partner Location Template (Add your partner locations here) -->
+                <!--
+                <div class="location-card">
+                    <h3><i class="fa-solid fa-store fa-icon-small"></i> Partner Location - [City, State]</h3>
+                    <div class="location-detail">
+                        <strong>Address:</strong> [Full Address]
+                    </div>
+                    <div class="location-detail">
+                        <strong>Phone:</strong> <a href="tel:+1XXXXXXXXXX" style="color: #2d5016; text-decoration: none;">[Phone Number]</a>
+                    </div>
+                    <div class="location-detail">
+                        <strong>Hours:</strong> [Business Hours]
+                    </div>
+                    
+                    <div class="models-list">
+                        <strong style="color: #2d5016;">Models on Display:</strong>
+                        <ul>
+                            <li>[List specific models on display at this location]</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="availability-badge">✓ On Display to Order</div>
+                </div>
+                -->
+            </div>
+
+            <div class="divider"></div>
+            
+            <!-- Ordering Process -->
+            <div class="section">
+                <h2 class="section-title">How to Order After Viewing</h2>
+                
+                <div class="policy-item">
+                    <h3>Step 1: Visit Our Showroom</h3>
+                    <p>Come see our greenhouse models in person during business hours. Our knowledgeable staff can answer questions and help you choose the right size and model for your needs.</p>
+                </div>
+                
+                <div class="policy-item">
+                    <h3>Step 2: Choose Your Greenhouse</h3>
+                    <p>Select the model and size that fits your space and growing goals. While we display one size of each collection, we can order any size within that collection for you.</p>
+                </div>
+                
+                <div class="policy-item">
+                    <h3>Step 3: Place Your Order</h3>
+                    <p>Orders can be placed:</p>
+                    <div class="icon-feature">
+                        <div class="fa-icon-large"><i class="fa-solid fa-phone"></i></div>
+                        <div>
+                            <strong>By Phone:</strong> Call us at (866) 448-8231
+                        </div>
+                    </div>
+                    <div class="icon-feature">
+                        <div class="fa-icon-large"><i class="fa-solid fa-globe"></i></div>
+                        <div>
+                            <strong>Online:</strong> Visit <a href="https://www.grandiogreenhouses.com" style="color: #2d5016;">grandiogreenhouses.com</a>
+                        </div>
+                    </div>
+                    <div class="icon-feature">
+                        <div class="fa-icon-large"><i class="fa-solid fa-building"></i></div>
+                        <div>
+                            <strong>In Person:</strong> At our Meridian, ID showroom
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="policy-item">
+                    <h3>Step 4: Your Order Ships to You</h3>
+                    <p>Your greenhouse will be shipped directly to your home or business address from our Idaho warehouse.</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            
+            <!-- Delivery Times -->
+            <div class="section">
+                <h2 class="section-title">Delivery Times for In-Stock Items</h2>
+                
+                <div class="highlight">
+                    <div class="icon-feature">
+                        <div class="fa-icon-large"><i class="fa-solid fa-box"></i></div>
+                        <div>
+                            <h4 style="margin-bottom: 10px;">Standard Delivery</h4>
+                            <p><strong>5-7 business days</strong> after order placement for most locations in the continental United States. Items are pulled from our warehouse, prepared, and shipped to your address.</p>
+                        </div>
+                    </div>
+                </div>
+                
+              
+                
+                <div class="info-box">
+                    <h4><i class="fa-solid fa-clock fa-icon-small"></i>Processing Time</h4>
+                    <p>Orders are typically processed within 3-5 business days before shipping. You will receive tracking information once your order ships.</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            
+            <!-- Shipping Policy -->
+            <div class="section">
+                <h2 class="section-title">Shipping Cost & Policy Information</h2>
+                
+                <div class="policy-item">
+                    <h3><i class="fa-solid fa-check fa-icon-small"></i>FREE Shipping</h3>
+                    <p>All Grandio Greenhouse kits ship <strong>FREE to the continental United States</strong>. This includes all greenhouse models viewed in our showroom and ordered for delivery.</p>
+                    <p style="margin-top: 10px; color: #4a7c2c; font-weight: 600;"><i class="fa-solid fa-tag" style="margin-right: 5px;"></i>Plus: No sales tax for out-of-state orders!</p>
+                </div>
+               
+                
+                <div class="policy-item">
+                    <h3><i class="fa-solid fa-truck fa-icon-small"></i>Delivery Method</h3>
+                    <p><strong>Freight Shipping:</strong> Greenhouses are shipped via UPS or Fedex directly to your address</p>
+                    <p><strong>Curbside Delivery Included:</strong> Standard delivery includes curbside drop-off</p>
+
+                </div>
+                
+                <div class="info-box">
+                    <h4><i class="fa-solid fa-clipboard-list fa-icon-small"></i>What to Expect at Delivery</h4>
+                    <p>Your greenhouse will arrive in multiple packages. Please inspect all packages upon arrival.</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            
+            <!-- Tax Information -->
+            <div class="section">
+                <h2 class="section-title">Sales Tax Information</h2>
+                
+                <div class="policy-item" style="background: #e8f5e8;">
+                    <h3><i class="fa-solid fa-circle-info fa-icon-small"></i> Tax-Free Shopping</h3>
+                    <p style="font-size: 1.1rem;">Most orders are <strong>tax-free!</strong> Sales tax only applies to orders picked up or delivered within Idaho.</p>
+                </div>
+                
+                <div class="info-box">
+                    <h4> Tax Details</h4>
+                    <p><strong>Out-of-State Customers:</strong> No sales tax charged on orders shipped outside of Idaho</p>
+                    <p style="margin-top: 10px;"><strong>Idaho Residents:</strong> Idaho state sales tax applies to orders shipped to or picked up in Idaho</p>
+                    <p style="margin-top: 10px;"><strong>Local Pickup:</strong> Idaho sales tax applies, but you still save 10% on the purchase price</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            
+            <!-- Additional Info -->
+            
+            <!-- Local Pickup Option -->
+            <div class="section">
+                <h2 class="section-title"><i class="fa-solid fa-store fa-icon-small"></i> Local Pickup - Save 10%</h2>
+                
+                <div class="policy-item" style="background: #fff8e1; border-left: 4px solid #f39c12;">
+                    <h3 style="color: #d68910;"><i class="fa-solid fa-badge-percent fa-icon-small"></i>Special Offer: 10% Discount for Local Pickup</h3>
+                    <p style="font-size: 1.1rem; margin-top: 10px;">Save 10% on your greenhouse purchase when you pick it up at our Meridian, Idaho showroom!</p>
+                </div>
+                
+                <div class="highlight">
+                    <div class="icon-feature">
+                        <div class="fa-icon-large"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h4 style="margin-bottom: 10px;">How Local Pickup Works</h4>
+                            <p><strong>1. View & Order:</strong> Visit our showroom to see the greenhouses on display, then place your order</p>
+                            <p><strong>2. We Prepare:</strong> Your greenhouse will be pulled from our warehouse and prepared for pickup in 24-48 hours at the most. </p>
+                            <p><strong>3. Save 10%:</strong> Automatically receive a 10% discount at checkout when you select pickup</p>
+                            <p><strong>4. Pick Up:</strong> Collect your greenhouse kit at our location during business hours</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h4>Pickup Requirements</h4>
+                    <p><strong>Vehicle:</strong> Greenhouse kits come in multiple boxes - please bring an appropriate vehicle (truck, SUV, or trailer recommended)</p>
+                    <p><strong>Pickup Hours:</strong> Monday-Friday, 8:30AM-5:00PM MST</p>
+                    <p><strong>Location:</strong> 88 N Touchmark Way Ste 150, Meridian, ID 83642</p>
+                </div>
+                
+                <div class="policy-item">
+                    <h3>✓ Benefits of Local Pickup</h3>
+                    <div style="margin-top: 15px;">
+                        <div class="icon-feature">
+                            <div class="fa-icon-large" style="width: 45px; height: 45px;"><i class="fa-solid fa-dollar-sign"></i></div>
+                            <div><strong>Save 10%</strong> on your total purchase</div>
+                        </div>
+                        <div class="icon-feature">
+                            <div class="fa-icon-large" style="width: 45px; height: 45px;"><i class="fa-solid fa-bolt"></i></div>
+                            <div><strong>No shipping delays</strong> - pick up when ready</div>
+                        </div>
+                        <div class="icon-feature">
+                            <div class="fa-icon-large" style="width: 45px; height: 45px;"><i class="fa-solid fa-eye"></i></div>
+                            <div><strong>Inspect before leaving</strong> - verify all packages on-site</div>
+                        </div>
+                        <div class="icon-feature">
+                            <div class="fa-icon-large" style="width: 45px; height: 45px;"><i class="fa-solid fa-handshake"></i></div>
+                            <div><strong>Get expert advice</strong> - talk to our team during pickup</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">Additional Information</h2>
+                
+                <div class="policy-item">
+                    <h3><i class="fa-solid fa-shield-halved fa-icon-small"></i>Warranty Coverage</h3>
+                    <p>All greenhouses ordered after viewing our display units include our <strong>Lifetime Frame Warranty</strong> and <strong>10-Year Panel Warranty</strong>. Full warranty details available <a href="/warranty" style="color: #2d5016;">here</a>.</p>
+                </div>
+                
+                <div class="policy-item">
+                    <h3><i class="fa-solid fa-credit-card fa-icon-small"></i>Payment Options</h3>
+                    <p>We accept all major credit cards, and financing options are available. Learn more about <a href="/financing" style="color: #2d5016;">financing options</a>.</p>
+                </div>
+                
+                <div class="policy-item">
+                    <h3><i class="fa-solid fa-screwdriver-wrench fa-icon-small"></i>Assembly Support</h3>
+                    <p>Every greenhouse kit includes comprehensive assembly instructions, they can also be viewed here, <a href="/assembly-instructions" style="color: #2d5016;">assembly guides</a>. Our customer support team is available to assist you throughout the assembly process. </p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            
+            <!-- Contact Box -->
+            <div class="contact-box">
+                <h3>Questions About Ordering or Delivery?</h3>
+                <p>Our team is here to help!</p>
+                <div class="phone"><a href="tel:+18664488231" style="color: white; text-decoration: none;">1-866-448-8231</a></div>
+                <div class="hours">Monday - Friday: 8:30AM - 5:00PM MST</div>
+                <p style="margin-top: 15px;">
+                    <a href="mailto:info@grandiogreenhouses.com" style="color: white;">info@grandiogreenhouses.com</a>
+                </p>
+            </div>
+            
+            <div class="highlight" style="text-align: center; margin-top: 30px;">
+                <p style="font-size: 1.1rem;"><strong>Ready to start growing year-round?</strong></p>
+                <p style="margin-top: 10px;">Visit our showroom or order online today!</p>
+                <div style="margin-top: 20px;">
+                    <a href="/greenhouses" style="display: inline-block; background: #2d5016; color: white; padding: 12px 30px; border-radius: 5px; text-decoration: none; font-weight: 600; margin: 5px;">Shop Greenhouses</a>
+                    <a href="/contact" style="display: inline-block; background: #4a7c2c; color: white; padding: 12px 30px; border-radius: 5px; text-decoration: none; font-weight: 600; margin: 5px;">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
