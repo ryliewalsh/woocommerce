@@ -59,7 +59,7 @@ function grandio_greenhouse_product_styles() {
                 'grandio-greenhouse-product',
                 get_stylesheet_directory_uri() . '/css/product-page.css',
                 array('child-style'), // Load after child theme styles
-                '1.0.13' // Update version number when you modify CSS
+                '1.0.22' // Update version number when you modify CSS
             );
         }
     }
@@ -904,249 +904,169 @@ function add_countdown_banner(){
     <?php
 }
 //add_action('wp_body_open', 'add_countdown_banner');
-
-
-// Sale Banner - Fully Inline CSS Version
+// Rotating Sale Banner - Two Promotions (Free Heater + Financing)
 function add_sale_banner() {
     ?>
-    <div id="saleBanner" style="position: fixed; top: 0; left: 0; width: 100%; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; padding: 15px 20px; z-index: 99998; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+    <div id="saleBanner" style="position: fixed; top: 0; left: 0; width: 100%; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; padding: 15px 20px; z-index: 99998; box-shadow: 0 2px 10px rgba(0,0,0,0.2); transition: background 0.5s ease;">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; position: relative;">
-            <div style="text-align: center; flex: 1;">
-                <span style="font-size: 22px; font-weight: 900; display: inline-block; margin-right: 15px; text-transform: uppercase; letter-spacing: 0.5px; word-spacing: 8px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-					 Black Friday Sale LIVE NOW - Use code FREEUPGRADE to recieve a premium kit for basic price!
-                </span>
-                <button id="emailPopupBtn" style="background: #fff; color: #e74c3c; border: 3px solid #fff; padding: 12px 30px; border-radius: 8px; font-weight: 900; cursor: pointer; font-size: 16px; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);" onmouseover="this.style.background='#ffe5e5'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='#fff'; this.style.transform='scale(1)'">
-                     SHOP DEAL NOW
-                </button>
+            <div style="text-align: center; flex: 1; position: relative; min-height: 30px;">
+                <!-- Promotion 1: Free Heater -->
+                <div class="promo-slide" data-promo="1" style="position: absolute; width: 100%; left: 0; opacity: 1; transition: opacity 0.5s ease;">
+                    <span style="font-size: 22px; font-weight: 900; display: inline-block; margin-right: 15px; text-transform: uppercase; letter-spacing: 0.5px; word-spacing: 8px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                        FREE Heater w/ Greenhouse Purchase $99 Value! Use Code: FREEHEAT at checkout
+                    </span>
+                </div>
+                
+                <!-- Promotion 2: Financing -->
+                <div class="promo-slide" data-promo="2" style="position: absolute; width: 100%; left: 0; opacity: 0; transition: opacity 0.5s ease;">
+                    <span style="font-size: 22px; font-weight: 900; display: inline-block; margin-right: 15px; text-transform: uppercase; letter-spacing: 0.5px; word-spacing: 8px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                        0% Financing Available! Low Monthly Payments with Synchrony
+                    </span>
+                    <a href="/financing-2" style="display: inline-block; background: white; color: #2e7d5a; padding: 8px 20px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.2);" onmouseover="this.style.background='#f0f0f0'; this.style.transform='scale(1.05)';" onmouseout="this.style.background='white'; this.style.transform='scale(1)';">
+                        View Financing →
+                    </a>
+                </div>
             </div>
+            
+            <!-- Navigation Dots -->
+            <div style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px;">
+                <button onclick="goToSlide(1)" class="promo-dot" data-dot="1" style="width: 10px; height: 10px; border-radius: 50%; background: white; border: none; cursor: pointer; padding: 0; opacity: 1; transition: opacity 0.3s ease;"></button>
+                <button onclick="goToSlide(2)" class="promo-dot" data-dot="2" style="width: 10px; height: 10px; border-radius: 50%; background: white; border: none; cursor: pointer; padding: 0; opacity: 0.5; transition: opacity 0.3s ease;"></button>
+            </div>
+            
             <button onclick="closeBanner()" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); border: none; color: white; font-size: 28px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; padding: 0; font-weight: bold;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
                 ×
             </button>
         </div>
     </div>
 
-  <!-- Email Popup -->
-<div id="emailPopup" 
-     style="
-        display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-        background:rgba(0,0,0,0.7); z-index:99999; 
-        align-items:center; justify-content:center;
-     ">
-
-    <div style="
-        background:white; padding:40px; border-radius:10px; 
-        max-width:500px; width:90%; position:relative; 
-        text-align:center; box-shadow:0 5px 30px rgba(0,0,0,0.3);
-    ">
-
-        <!-- Close X -->
-        <span class="close-popup"
-              style="position:absolute; top:15px; right:20px; font-size:30px; cursor:pointer; color:#999; line-height:1;"
-              onmouseover="this.style.color='#333'"
-              onmouseout="this.style.color='#999'">
-            ×
-        </span>
-
-        <!-- Headline -->
-        <h2 style="margin:0 0 10px 0; color:#333; font-size:28px;">
-            Buy A Greenhouse Get a FREE Accessory Package!
-        </h2>
-
-        <p style="margin:0 0 25px 0; color:#666; font-size:16px;">
-            EXCLUSIVE Savings $220 to $1,310 - Receive Pre-Black Friday Code NOW! Valid while supplies last.
-        </p>
-
-        <!-- Email Form -->
-        <form id="emailForm">
-            <input 
-                type="email" 
-                id="emailInput" 
-                placeholder="Enter your email"
-                required
-                style="
-                    width:100%; padding:14px; margin-bottom:15px; 
-                    border:2px solid #ddd; border-radius:5px; 
-                    font-size:16px; box-sizing:border-box;
-                "
-                onfocus="this.style.borderColor='#4CAF50'"
-                onblur="this.style.borderColor='#ddd'"
-            />
-
-            <button type="submit"
-                    style="
-                        width:100%; padding:14px; background:#4CAF50; 
-                        color:white; border:none; border-radius:5px; 
-                        font-size:16px; cursor:pointer; font-weight:bold;
-                        transition:background 0.3s ease;
-                    "
-                    onmouseover="this.style.background='#45a049'"
-                    onmouseout="this.style.background='#4CAF50'">
-                Get Your Code
-            </button>
-        </form>
-
-        <!-- SUCCESS -->
-        <div id="successMessage" style="display:none; margin-top:20px;">
-
-            <p style="color:#4CAF50; font-weight:bold; font-size:18px; margin-bottom:20px;">
-                Your Code: FREEUPGRADE
-            </p>
-
-            <p style="color:#4CAF50; font-weight:bold; font-size:12px; margin-bottom:20px;">
-                Apply after adding your choice of basic Greenhouse kit
-            </p>
-
-            <button id="closeAfterSuccess"
-                    style="
-                        width:100%; padding:14px; background:#4CAF50; 
-                        color:white; border:none; border-radius:5px; 
-                        font-size:16px; cursor:pointer; font-weight:bold;
-                    "
-                    onmouseover="this.style.background='#45a049'"
-                    onmouseout="this.style.background='#4CAF50'">
-                Close
-            </button>
-        </div>
-
-        <!-- ERROR -->
-        <div id="errorMessage" style="display:none; color:red; margin-top:15px;"></div>
-
-    </div>
-</div>
-
-
     <script>
-    function closeBanner() {
-        var banner = document.getElementById('saleBanner');
-        if (banner) {
-            banner.style.transform = 'translateY(-100%)';
-            setTimeout(function() {
-                banner.style.display = 'none';
-            }, 300);
-            sessionStorage.setItem('saleBannerClosed', 'true');
-        }
-    }
+        let currentSlide = 1;
+        let autoRotate;
+        const totalSlides = 2;
+        
+        // Background colors for different promotions
+        const backgrounds = {
+            1: 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)', // Red - Free Heater
+            2: 'linear-gradient(135deg, #2e7d5a 0%, #4a9b6e 100%)'  // Green - Financing
+        };
 
-    (function() {
-        // Check if previously closed
-        if (sessionStorage.getItem('saleBannerClosed') === 'true') {
-            var banner = document.getElementById('saleBanner');
+        function showSlide(slideNum) {
+            // Hide all slides
+            document.querySelectorAll('.promo-slide').forEach(slide => {
+                slide.style.opacity = '0';
+            });
+            
+            // Show current slide
+            const activeSlide = document.querySelector(`.promo-slide[data-promo="${slideNum}"]`);
+            if (activeSlide) {
+                activeSlide.style.opacity = '1';
+            }
+            
+            // Update dots
+            document.querySelectorAll('.promo-dot').forEach(dot => {
+                dot.style.opacity = '0.5';
+            });
+            const activeDot = document.querySelector(`.promo-dot[data-dot="${slideNum}"]`);
+            if (activeDot) {
+                activeDot.style.opacity = '1';
+            }
+            
+            // Change background color
+            const banner = document.getElementById('saleBanner');
+            if (banner && backgrounds[slideNum]) {
+                banner.style.background = backgrounds[slideNum];
+            }
+            
+            currentSlide = slideNum;
+        }
+
+        function nextSlide() {
+            currentSlide = currentSlide >= totalSlides ? 1 : currentSlide + 1;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(slideNum) {
+            clearInterval(autoRotate);
+            showSlide(slideNum);
+            startAutoRotate();
+        }
+
+        function startAutoRotate() {
+            autoRotate = setInterval(nextSlide, 6000); // Change every 6 seconds
+        }
+
+        function closeBanner() {
+            const banner = document.getElementById('saleBanner');
             if (banner) {
                 banner.style.display = 'none';
             }
+            clearInterval(autoRotate);
+            
+            // Save state in session storage
+            sessionStorage.setItem('saleBannerClosed', 'true');
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            var popup = document.getElementById('emailPopup');
-            var btn = document.getElementById('emailPopupBtn');
-            var closeBtn = document.querySelector('.close-popup');
-
-            if (btn) {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    popup.style.display = 'flex';
-                });
-            }
-
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    popup.style.display = 'none';
-                    resetForm();
-                });
-            }
-
-            popup.addEventListener('click', function(e) {
-                if (e.target === popup) {
-                    popup.style.display = 'none';
-                    resetForm();
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            // Check if banner was closed
+            if (sessionStorage.getItem('saleBannerClosed') === 'true') {
+                const banner = document.getElementById('saleBanner');
+                if (banner) {
+                    banner.style.display = 'none';
                 }
-            });
-
-            function resetForm() {
-                document.getElementById('emailForm').style.display = 'block';
-                document.getElementById('successMessage').style.display = 'none';
-                document.getElementById('errorMessage').style.display = 'none';
-                document.getElementById('emailForm').reset();
+                return;
             }
-
-            var form = document.getElementById('emailForm');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    var email = document.getElementById('emailInput').value;
-                    var submitBtn = this.querySelector('button[type="submit"]');
-                    
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = 'Subscribing...';
-                    
-                    var formData = new FormData();
-                    formData.append('action', 'subscribe_banner_email');
-                    formData.append('email', email);
-                    formData.append('nonce', '<?php echo wp_create_nonce('banner_subscribe_nonce'); ?>');
-                    
-                    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(function(response) {
-                        return response.json();
-                    })
-                    .then(function(data) {
-                        if (data.success) {
-                            document.getElementById('emailForm').style.display = 'none';
-                            document.getElementById('successMessage').style.display = 'block';
-                        } else {
-                            document.getElementById('errorMessage').textContent = '⚠ Error: ' + (data.data || 'Subscription failed');
-                            document.getElementById('errorMessage').style.display = 'block';
-                        }
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Subscribe';
-                    })
-                    .catch(function(error) {
-                        document.getElementById('errorMessage').textContent = '⚠ Error: ' + error.message;
-                        document.getElementById('errorMessage').style.display = 'block';
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Subscribe';
-                    });
+            
+            // Start auto-rotation
+            startAutoRotate();
+            
+            // Pause on hover
+            const banner = document.getElementById('saleBanner');
+            if (banner) {
+                banner.addEventListener('mouseenter', function() {
+                    clearInterval(autoRotate);
                 });
-            }
-
-            var closeSuccess = document.getElementById('closeAfterSuccess');
-            if (closeSuccess) {
-                closeSuccess.addEventListener('click', function() {
-                    popup.style.display = 'none';
-                    resetForm();
+                
+                banner.addEventListener('mouseleave', function() {
+                    startAutoRotate();
                 });
             }
         });
-    })();
     </script>
 
-    <!-- Mobile responsive styles -->
     <style>
-    @media (max-width: 768px) {
-        #saleBanner > div {
-            padding-right: 40px !important;
+        /* Push content down to account for banner */
+        body {
+            padding-top: 60px !important;
         }
-        #saleBanner span {
-            font-size: 13px !important;
-            display: block !important;
-            margin-right: 0 !important;
-            margin-bottom: 8px !important;
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #saleBanner span {
+                font-size: 16px !important;
+                word-spacing: 4px !important;
+            }
+            
+            #saleBanner {
+                padding: 12px 15px !important;
+            }
+            
+            body {
+                padding-top: 55px !important;
+            }
         }
-        #emailPopupBtn {
-            width: 100% !important;
-            margin-top: 8px !important;
+        
+        @media (max-width: 480px) {
+            #saleBanner span {
+                font-size: 14px !important;
+                word-spacing: 2px !important;
+            }
         }
-        .email-popup-content {
-            padding: 30px 20px !important;
-        }
-    }
     </style>
     <?php
 }
-//add_action('wp_footer', 'add_sale_banner', 1);
+add_action('wp_body_open', 'add_sale_banner');
 
 // AJAX handler for banner email subscription
 //add_action('wp_ajax_subscribe_banner_email', 'handle_banner_email_subscription');
@@ -1671,7 +1591,7 @@ function add_accessory_by_sku($sku) {
 }
 
 // Set price to $0 for free accessory packages
-add_action('woocommerce_before_calculate_totals', 'set_free_accessory_price', 20);
+//add_action('woocommerce_before_calculate_totals', 'set_free_accessory_price', 20);
 
 function set_free_accessory_price($cart) {
     if (is_admin() && !defined('DOING_AJAX')) {
@@ -1710,7 +1630,7 @@ function set_free_accessory_price($cart) {
 }
 
 // Force quantity to 1 ONLY for free accessories (not greenhouses)
-add_action('woocommerce_before_calculate_totals', 'enforce_free_accessory_quantity', 5);
+//add_action('woocommerce_before_calculate_totals', 'enforce_free_accessory_quantity', 5);
 
 function enforce_free_accessory_quantity($cart) {
     if (is_admin() && !defined('DOING_AJAX')) {
@@ -1727,7 +1647,7 @@ function enforce_free_accessory_quantity($cart) {
 }
 
 // Lock quantity display for free accessories ONLY (not greenhouses)
-add_filter('woocommerce_cart_item_quantity', 'lock_free_accessory_quantity', 10, 3);
+//add_filter('woocommerce_cart_item_quantity', 'lock_free_accessory_quantity', 10, 3);
 
 function lock_free_accessory_quantity($product_quantity, $cart_item_key, $cart_item) {
     // ONLY lock quantity for free accessories, not for greenhouses
@@ -1741,7 +1661,7 @@ function lock_free_accessory_quantity($product_quantity, $cart_item_key, $cart_i
 }
 
 // Add CSS to hide quantity controls ONLY for free accessories
-add_action('wp_head', 'hide_free_accessory_quantity_controls');
+//add_action('wp_head', 'hide_free_accessory_quantity_controls');
 
 function hide_free_accessory_quantity_controls() {
     if (is_cart() || is_checkout()) {
@@ -1779,7 +1699,7 @@ function hide_free_accessory_quantity_controls() {
 }
 
 // Add class ONLY to free accessory items (not greenhouses)
-add_filter('woocommerce_cart_item_class', 'add_free_accessory_cart_class', 10, 3);
+//add_filter('woocommerce_cart_item_class', 'add_free_accessory_cart_class', 10, 3);
 
 function add_free_accessory_cart_class($class, $cart_item, $cart_item_key) {
     // ONLY add class to free accessories
@@ -1811,7 +1731,7 @@ function remove_free_accessory_packages($coupon_code) {
 }
 
 // Update accessory packages when cart items change
-add_action('woocommerce_cart_item_removed', 'update_accessories_on_cart_change', 10, 2);
+//add_action('woocommerce_cart_item_removed', 'update_accessories_on_cart_change', 10, 2);
 
 function update_accessories_on_cart_change($cart_item_key, $cart) {
     // Check if a promo coupon is applied
@@ -1851,7 +1771,7 @@ function update_accessories_on_cart_change($cart_item_key, $cart) {
 }
 
 // Display FREE badge in cart
-add_filter('woocommerce_cart_item_price', 'display_free_accessory_badge', 10, 3);
+//add_filter('woocommerce_cart_item_price', 'display_free_accessory_badge', 10, 3);
 
 function display_free_accessory_badge($price, $cart_item, $cart_item_key) {
     if (isset($cart_item['free_accessory'])) {
@@ -1903,7 +1823,7 @@ function show_available_accessory_promotion() {
 }
 
 // Prevent removal of free accessories only
-add_filter('woocommerce_cart_item_remove_link', 'prevent_free_accessory_removal', 10, 2);
+//add_filter('woocommerce_cart_item_remove_link', 'prevent_free_accessory_removal', 10, 2);
 
 function prevent_free_accessory_removal($remove_link, $cart_item_key) {
     $cart_contents = WC()->cart->get_cart();
@@ -1924,7 +1844,7 @@ function prevent_free_accessory_removal($remove_link, $cart_item_key) {
 }
 
 // Add cart item note for free accessories
-add_filter('woocommerce_get_item_data', 'add_free_accessory_cart_note', 10, 2);
+//add_filter('woocommerce_get_item_data', 'add_free_accessory_cart_note', 10, 2);
 
 function add_free_accessory_cart_note($item_data, $cart_item) {
     if (isset($cart_item['free_accessory'])) {
@@ -1938,7 +1858,7 @@ function add_free_accessory_cart_note($item_data, $cart_item) {
 }
 
 // Add helpful note on greenhouse products
-add_filter('woocommerce_cart_item_name', 'add_greenhouse_removal_note', 10, 3);
+//add_filter('woocommerce_cart_item_name', 'add_greenhouse_removal_note', 10, 3);
 
 function add_greenhouse_removal_note($product_name, $cart_item, $cart_item_key) {
     // Only for greenhouses when promo is active
@@ -1968,7 +1888,7 @@ function add_greenhouse_removal_note($product_name, $cart_item, $cart_item_key) 
     
     return $product_name;
 }
-add_filter('woocommerce_is_purchasable', 'force_acs_purchasable_during_promo', 999, 2);
+//add_filter('woocommerce_is_purchasable', 'force_acs_purchasable_during_promo', 999, 2);
 
 function force_acs_purchasable_during_promo($is_purchasable, $product) {
     // If we're applying a coupon and it's an accessory, force purchasable
@@ -1983,49 +1903,8 @@ function force_acs_purchasable_during_promo($is_purchasable, $product) {
 }
 // Exclude accessories from WooCommerce product queries
 // Completely exclude accessory products from search results
-add_action('pre_get_posts', 'completely_exclude_accessories_from_search');
+//add_action('pre_get_posts', 'completely_exclude_accessories_from_search');
 
-function completely_exclude_accessories_from_search($query) {
-    // Only on frontend main query
-    if (is_admin() || !$query->is_main_query()) {
-        return;
-    }
-    
-    // Only affect search queries
-    if (!$query->is_search()) {
-        return;
-    }
-    
-    global $wpdb;
-    
-    // Get all accessory product IDs (cached)
-    $cache_key = 'all_accessory_product_ids';
-    $accessory_ids = wp_cache_get($cache_key);
-    
-    if ($accessory_ids === false) {
-        $accessory_ids = $wpdb->get_col(
-            "SELECT DISTINCT post_id 
-            FROM {$wpdb->postmeta} 
-            WHERE meta_key = '_sku' 
-            AND UPPER(meta_value) LIKE '%-ACS%'"
-        );
-        
-        wp_cache_set($cache_key, $accessory_ids, '', 3600);
-    }
-    
-    if (!empty($accessory_ids)) {
-        // Get existing excluded IDs
-        $existing_excluded = $query->get('post__not_in');
-        
-        if (!is_array($existing_excluded)) {
-            $existing_excluded = array();
-        }
-        
-        // Merge and exclude
-        $all_excluded = array_merge($existing_excluded, $accessory_ids);
-        $query->set('post__not_in', $all_excluded);
-    }
-}
 
 // FRESH START - Enhanced Conversions
 add_action('woocommerce_thankyou', 'grandio_push_enhanced_conversion', 5, 1);
@@ -2239,7 +2118,7 @@ function add_bf_banner() {
     </script>
     <?php
 }
-add_action('wp_body_open', 'add_bf_banner');
+//add_action('wp_body_open', 'add_bf_banner');
 
 /**
  * CTA Section with Klaviyo Integration
@@ -2255,11 +2134,11 @@ add_action('wp_ajax_nopriv_subscribe_cta_email', 'handle_cta_email_subscription'
 function klaviyo_cta_section($atts) {
     // Parse attributes with defaults
     $atts = shortcode_atts([
-        'title' => 'Perfect Greenhouse Gifts Dropping Every Week',
-        'subtitle' => 'Sign up to recieve NEW Weekly Deals ',
+        'title' => 'LOWEST PRICE GUARANTEE - we price match!',
+        'subtitle' => 'Sign up to recieve limited time offers ',
         'button_text' => 'Subscribe Now',
-        'bg_color' => '#2d7a4f',
-        'accent_color' => '#1a5233'
+        'bg_color' => ' #4a7c59',
+        'accent_color' => '#3d6a4a'
     ], $atts);
     
     // Weekly deals configuration
@@ -2824,4 +2703,624 @@ function render_star_rating($rating, $size = '18px', $show_average = false) {
     }
     $html .= '</span>';
     return $html;
+}
+
+// ========================================
+// BACKEND: Apply 5% discount when greenhouse + accessories are in cart
+// ========================================
+add_action('woocommerce_before_calculate_totals', 'package_builder_greenhouse_discount', 20);
+
+function package_builder_greenhouse_discount($cart) {
+    if (is_admin() && !defined('DOING_AJAX')) return;
+    if (did_action('woocommerce_before_calculate_totals') >= 2) return;
+    
+    $has_greenhouse = false;
+    $accessories_items = array();
+    
+    // Check cart contents
+    foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
+        $product = $cart_item['data'];
+        $categories = wp_get_post_terms($product->get_id(), 'product_cat', array('fields' => 'slugs'));
+        
+        // Check for greenhouse (adjust category slug if needed)
+        if (in_array('element', $categories) || in_array('ascent', $categories) || in_array('elite', $categories) || in_array('summit', $categories)) {
+            $has_greenhouse = true;
+        }
+        
+        // Track accessories-upgrade items
+        if (in_array('accessories-upgrade', $categories)) {
+            $accessories_items[] = $cart_item_key;
+        }
+    }
+    
+    // Apply 5% discount to accessories if greenhouse is in cart
+    if ($has_greenhouse && !empty($accessories_items)) {
+        foreach ($accessories_items as $item_key) {
+            $cart_item = $cart->cart_contents[$item_key];
+            $original_price = $cart_item['data']->get_price();
+            $discounted_price = $original_price * 0.95; // 5% off on top of the already sale price, had to force this way bc the sale price was set as regular 
+            
+            $cart_item['data']->set_price($discounted_price);
+            
+            // Store for display
+            $cart->cart_contents[$item_key]['original_price'] = $original_price;
+            $cart->cart_contents[$item_key]['bundle_discount'] = true;
+        }
+    }
+}
+
+// Show discount in cart item price
+add_filter('woocommerce_cart_item_price', 'show_package_bundle_discount', 10, 3);
+
+function show_package_bundle_discount($price, $cart_item, $cart_item_key) {
+    if (isset($cart_item['bundle_discount']) && isset($cart_item['original_price'])) {
+        $original = wc_price($cart_item['original_price']);
+        $new_price = wc_price($cart_item['data']->get_price());
+        $savings = $cart_item['original_price'] - $cart_item['data']->get_price();
+        
+        return '<del style="opacity:0.6;">' . $original . '</del> 
+                <ins style="text-decoration:none; color:#27ae60; font-weight:600;">' . $new_price . '</ins>
+                <br><small style="color:#27ae60;"> Bundle discount: -' . wc_price($savings) . '</small>';
+    }
+    return $price;
+}
+
+// Show discount notice in cart
+add_action('woocommerce_before_cart_table', 'show_package_discount_notice');
+
+function show_package_discount_notice() {
+    $has_greenhouse = false;
+    $has_accessories = false;
+    $total_savings = 0;
+    
+    foreach (WC()->cart->get_cart() as $cart_item) {
+        $categories = wp_get_post_terms($cart_item['product_id'], 'product_cat', array('fields' => 'slugs'));
+        
+       if (in_array('element', $categories) || in_array('ascent', $categories) || in_array('elite', $categories) || in_array('summit', $categories)) {
+            $has_greenhouse = true;
+        }
+        
+        if (in_array('accessories-upgrade', $categories)) {
+            $has_accessories = true;
+            if (isset($cart_item['original_price'])) {
+                $savings = ($cart_item['original_price'] - $cart_item['data']->get_price()) * $cart_item['quantity'];
+                $total_savings += $savings;
+            }
+        }
+    }
+    
+    if ($has_greenhouse && $has_accessories && $total_savings > 0) {
+        echo '<div class="woocommerce-message" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left:4px solid #4caf50; padding: 20px; margin-bottom: 20px; border-radius: 8px;">
+            <strong style="font-size: 18px; color: #2e7d32;">Bundle Discount Applied!</strong><br>
+            <span style="font-size: 16px; color: #1b5e20;">You\'re saving <strong>' . wc_price($total_savings) . '</strong> (5% off accessories) with your greenhouse purchase!</span>
+        </div>';
+    }
+}
+// Handle AJAX add to cart for variable products
+add_action('wp_ajax_add_anchor_to_cart', 'grandio_ajax_add_anchor_to_cart');
+add_action('wp_ajax_nopriv_add_anchor_to_cart', 'grandio_ajax_add_anchor_to_cart');
+
+function grandio_ajax_add_anchor_to_cart() {
+    // Verify nonce
+    check_ajax_referer('grandio_package_nonce', 'nonce');
+    
+    $variation_id = isset($_POST['variation_id']) ? absint($_POST['variation_id']) : 0;
+    $quantity = isset($_POST['quantity']) ? absint($_POST['quantity']) : 1;
+    
+    if (!$variation_id) {
+        wp_send_json_error(array(
+            'message' => 'Invalid product ID'
+        ));
+        return;
+    }
+    
+    // Get the variation product
+    $variation = wc_get_product($variation_id);
+    
+    if (!$variation || !$variation->is_type('variation')) {
+        wp_send_json_error(array(
+            'message' => 'Invalid variation product'
+        ));
+        return;
+    }
+    
+    // Get parent product ID
+    $parent_id = $variation->get_parent_id();
+    
+    // Get variation attributes
+    $variation_data = $variation->get_variation_attributes();
+    
+    // Add to cart
+    $cart_item_key = WC()->cart->add_to_cart(
+        $parent_id,
+        $quantity,
+        $variation_id,
+        $variation_data
+    );
+    
+    if ($cart_item_key) {
+        // Success
+        wp_send_json_success(array(
+            'message' => 'Product added to cart',
+            'cart_item_key' => $cart_item_key,
+            'cart_count' => WC()->cart->get_cart_contents_count(),
+            'cart_hash' => WC()->cart->get_cart_hash(),
+            'fragments' => apply_filters('woocommerce_add_to_cart_fragments', array())
+        ));
+    } else {
+        // Failed
+        wp_send_json_error(array(
+            'message' => 'Could not add product to cart'
+        ));
+    }
+}
+/**
+ * Automatically add free heater when a specific coupon is applied
+ */
+add_action('woocommerce_applied_coupon', 'add_free_heater_with_coupon');
+
+function add_free_heater_with_coupon($coupon_code) {
+    
+    // Define your free heater product ID
+    $free_heater_id = 5113433;
+    
+    // Define the coupon code that triggers the free heater
+    $trigger_coupon = 'FREEHEAT'; // CHANGE THIS to your actual coupon code
+    
+    // Check if the applied coupon matches
+    if (strtoupper($coupon_code) !== strtoupper($trigger_coupon)) {
+        return;
+    }
+    
+    // Check if there's a greenhouse in cart
+    $has_greenhouse = false;
+    
+    foreach (WC()->cart->get_cart() as $cart_item) {
+        $categories = wp_get_post_terms($cart_item['product_id'], 'product_cat', array('fields' => 'slugs'));
+        
+        if (in_array('element', $categories) || 
+            in_array('ascent', $categories) || 
+            in_array('elite', $categories) || 
+            in_array('summit', $categories)) {
+            $has_greenhouse = true;
+            break;
+        }
+    }
+    
+    // Only add heater if greenhouse is in cart
+    if (!$has_greenhouse) {
+        wc_add_notice('This coupon can only be used with a greenhouse purchase.', 'error');
+        WC()->cart->remove_coupon($coupon_code);
+        return;
+    }
+    
+    // Check if heater is already in cart
+    $heater_in_cart = false;
+    foreach (WC()->cart->get_cart() as $cart_item) {
+        if ($cart_item['product_id'] == $free_heater_id) {
+            $heater_in_cart = true;
+            break;
+        }
+    }
+    
+    // Add heater if not already in cart
+    if (!$heater_in_cart) {
+        WC()->cart->add_to_cart($free_heater_id, 1, 0, array(), array(
+            'free_gift' => true,
+            'free_gift_with_coupon' => $coupon_code
+        ));
+        
+        wc_add_notice('Free Heater added to your cart!', 'success');
+    }
+}
+
+/**
+ * Set heater price to $0 when coupon is applied AND greenhouse is in cart
+ */
+add_action('woocommerce_before_calculate_totals', 'set_free_heater_price_with_coupon', 10, 1);
+
+function set_free_heater_price_with_coupon($cart) {
+    
+    if (is_admin() && !defined('DOING_AJAX')) {
+        return;
+    }
+    
+    if (did_action('woocommerce_before_calculate_totals') >= 2) {
+        return;
+    }
+    
+    $free_heater_id = 5113433;
+    $trigger_coupon = 'FREEHEAT'; // CHANGE THIS to your actual coupon code
+    
+    // Check if the coupon is applied
+    $coupon_applied = WC()->cart->has_discount($trigger_coupon);
+    
+    if (!$coupon_applied) {
+        return;
+    }
+    
+    // Check if there's a greenhouse in cart
+    $has_greenhouse = false;
+    
+    foreach ($cart->get_cart() as $cart_item) {
+        $categories = wp_get_post_terms($cart_item['product_id'], 'product_cat', array('fields' => 'slugs'));
+        
+        if (in_array('element', $categories) || 
+            in_array('ascent', $categories) || 
+            in_array('elite', $categories) || 
+            in_array('summit', $categories)) {
+            $has_greenhouse = true;
+            break;
+        }
+    }
+    
+    // Set heater to free if greenhouse is in cart and coupon is applied
+    if ($has_greenhouse) {
+        foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
+            if ($cart_item['product_id'] == $free_heater_id) {
+                $cart_item['data']->set_price(0);
+            }
+        }
+    }
+}
+
+/**
+ * Display "FREE with Coupon" label in cart for the heater
+ */
+add_filter('woocommerce_cart_item_name', 'add_free_gift_coupon_label_to_cart', 10, 3);
+
+function add_free_gift_coupon_label_to_cart($product_name, $cart_item, $cart_item_key) {
+    
+    $free_heater_id = 5113433;
+    $trigger_coupon = 'FREEHEAT'; // CHANGE THIS to your actual coupon code
+    
+    if ($cart_item['product_id'] == $free_heater_id) {
+        
+        // Check if coupon is applied AND greenhouse is in cart
+        $coupon_applied = WC()->cart->has_discount($trigger_coupon);
+        $has_greenhouse = false;
+        
+        foreach (WC()->cart->get_cart() as $item) {
+            $categories = wp_get_post_terms($item['product_id'], 'product_cat', array('fields' => 'slugs'));
+            
+            if (in_array('element', $categories) || 
+                in_array('ascent', $categories) || 
+                in_array('elite', $categories) || 
+                in_array('summit', $categories)) {
+                $has_greenhouse = true;
+                break;
+            }
+        }
+        
+        if ($coupon_applied && $has_greenhouse) {
+            $product_name .= ' <span class="free-gift-label" style="background: #d4773c; color: white; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; margin-left: 8px;">FREE $100 Value</span>';
+        }
+    }
+    
+    return $product_name;
+}
+
+/**
+ * Remove heater from cart if coupon is removed
+ */
+add_action('woocommerce_removed_coupon', 'remove_free_heater_when_coupon_removed');
+
+function remove_free_heater_when_coupon_removed($coupon_code) {
+    
+    $free_heater_id = 5113433;
+    $trigger_coupon = 'FREEHEAT'; // CHANGE THIS to your actual coupon code
+    
+    // Check if the removed coupon is the trigger coupon
+    if (strtoupper($coupon_code) !== strtoupper($trigger_coupon)) {
+        return;
+    }
+    
+    // Remove the heater from cart
+    foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+        if ($cart_item['product_id'] == $free_heater_id) {
+            WC()->cart->remove_cart_item($cart_item_key);
+            wc_add_notice('Free heater removed from cart.', 'notice');
+            break;
+        }
+    }
+}
+
+/**
+ * MODIFIED: Only disable removal when BOTH coupon is applied AND greenhouse is in cart
+ */
+add_filter('woocommerce_cart_item_remove_link', 'disable_free_heater_removal_coupon', 10, 2);
+
+function disable_free_heater_removal_coupon($remove_link, $cart_item_key) {
+    
+    $free_heater_id = 5113433;
+    $trigger_coupon = 'FREEHEAT'; // CHANGE THIS to your actual coupon code
+    
+    $cart_item = WC()->cart->get_cart()[$cart_item_key];
+    
+    if ($cart_item['product_id'] == $free_heater_id) {
+        
+        // Check if coupon is applied
+        $coupon_applied = WC()->cart->has_discount($trigger_coupon);
+        
+        // Check if greenhouse is in cart
+        $has_greenhouse = false;
+        foreach (WC()->cart->get_cart() as $item) {
+            $categories = wp_get_post_terms($item['product_id'], 'product_cat', array('fields' => 'slugs'));
+            
+            if (in_array('element', $categories) || 
+                in_array('ascent', $categories) || 
+                in_array('elite', $categories) || 
+                in_array('summit', $categories)) {
+                $has_greenhouse = true;
+                break;
+            }
+        }
+        
+        // ONLY disable removal if BOTH coupon is applied AND greenhouse is in cart
+        if ($coupon_applied && $has_greenhouse) {
+            // Replace remove link with a message
+            return '<span class="remove" style="color: #999; cursor: not-allowed;" title="Remove coupon to remove this item">✓</span>';
+        }
+    }
+    
+    return $remove_link;
+}
+
+/**
+ * MODIFIED: Only lock quantity when BOTH coupon is applied AND greenhouse is in cart
+ */
+add_filter('woocommerce_cart_item_quantity', 'lock_free_heater_quantity_coupon', 10, 3);
+
+function lock_free_heater_quantity_coupon($product_quantity, $cart_item_key, $cart_item) {
+    
+    $free_heater_id = 5113433;
+    $trigger_coupon = 'FREEHEAT'; // CHANGE THIS to your actual coupon code
+    
+    if ($cart_item['product_id'] == $free_heater_id) {
+        
+        // Check if coupon is applied
+        $coupon_applied = WC()->cart->has_discount($trigger_coupon);
+        
+        // Check if greenhouse is in cart
+        $has_greenhouse = false;
+        foreach (WC()->cart->get_cart() as $item) {
+            $categories = wp_get_post_terms($item['product_id'], 'product_cat', array('fields' => 'slugs'));
+            
+            if (in_array('element', $categories) || 
+                in_array('ascent', $categories) || 
+                in_array('elite', $categories) || 
+                in_array('summit', $categories)) {
+                $has_greenhouse = true;
+                break;
+            }
+        }
+        
+        // ONLY lock quantity if BOTH coupon is applied AND greenhouse is in cart
+        if ($coupon_applied && $has_greenhouse) {
+            // Display quantity as text instead of input
+            return '<span class="quantity">1</span>';
+        }
+    }
+    
+    return $product_quantity;
+}
+
+/**
+ * Add notice on cart/checkout if greenhouse is in cart but coupon not applied
+ */
+add_action('woocommerce_before_cart', 'show_free_heater_coupon_notice');
+add_action('woocommerce_before_checkout_form', 'show_free_heater_coupon_notice');
+
+function show_free_heater_coupon_notice() {
+    
+    $trigger_coupon = 'FREEHEAT'; // CHANGE THIS to your actual coupon code
+    $free_heater_id = 5113433;
+    
+    // Check if coupon is already applied
+    if (WC()->cart->has_discount($trigger_coupon)) {
+        return;
+    }
+    
+    // Check if heater is already in cart
+    $heater_in_cart = false;
+    foreach (WC()->cart->get_cart() as $cart_item) {
+        if ($cart_item['product_id'] == $free_heater_id) {
+            $heater_in_cart = true;
+            break;
+        }
+    }
+    
+    if ($heater_in_cart) {
+        return; // Don't show notice if heater already in cart
+    }
+    
+    // Check if there's a greenhouse in cart
+    $has_greenhouse = false;
+    
+    foreach (WC()->cart->get_cart() as $cart_item) {
+        $categories = wp_get_post_terms($cart_item['product_id'], 'product_cat', array('fields' => 'slugs'));
+        
+        if (in_array('element', $categories) || 
+            in_array('ascent', $categories) || 
+            in_array('elite', $categories) || 
+            in_array('summit', $categories)) {
+            $has_greenhouse = true;
+            break;
+        }
+    }
+    
+    // Show notice if greenhouse in cart but coupon not applied
+    if ($has_greenhouse) {
+        wc_print_notice(
+            ' <strong>Special Offer!</strong> Use coupon code <strong>' . $trigger_coupon . '</strong> to get a FREE Milkhouse Heater ($100 value) with your greenhouse!',
+            'notice'
+        );
+    }
+}
+add_action('woocommerce_review_order_before_payment', 'grandio_synchrony_checkout_widget', 10);
+
+function grandio_synchrony_checkout_widget() {
+    // Check if WooCommerce cart exists
+    if (!function_exists('WC') || !WC()->cart) {
+        return;
+    }
+    
+    // Get cart total
+    $cart_total = WC()->cart->total;
+    
+    // Only show if total is $500+
+    if ($cart_total < 500) {
+        return;
+    }
+    
+    // Calculate payment based on price tiers
+    if ($cart_total >= 2400) {
+        $months = 36;
+    } elseif ($cart_total >= 1200) {
+        $months = 24;
+    } else {
+        $months = 18;
+    }
+    
+    $annual_rate = 9.99;
+    $monthly_rate = $annual_rate / 12 / 100;
+    $monthly_payment = $cart_total * ($monthly_rate * pow(1 + $monthly_rate, $months)) / (pow(1 + $monthly_rate, $months) - 1);
+    $monthly_payment = ceil($monthly_payment);
+    
+    ?>
+    <div class="synchrony-checkout-widget" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border: 2px solid #2196f3; border-radius: 12px; padding: 20px; margin: 20px 0 25px 0;">
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2196f3" stroke-width="2">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+            <div>
+                <h3 style="margin: 0; font-size: 20px; color: #2c3e50; font-weight: 700;">Flexible Payment Options Available</h3>
+                <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">Pay as low as <strong style="color: #2196f3; font-size: 18px;">$<?php echo $monthly_payment; ?>/month</strong></p>
+            </div>
+        </div>
+        
+        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #4caf50;">
+            <p style="margin: 0; font-size: 14px; color: #555; line-height: 1.6;">
+                To see all options continue by selecting Synchrony below and accepting terms and conditions
+            </p>
+        </div>
+        
+        <!-- Synchrony Data Layer -->
+        <script>
+        window._SFDDL = window._SFDDL || {
+            page: {
+                pageInfo: {
+                    pageName: 'Checkout Page',
+                    pageType: 'checkout'
+                }
+            },
+            cart: {
+                cartID: '<?php echo WC()->cart->get_cart_hash(); ?>',
+                price: {
+                    cartTotal: '<?php echo esc_js($cart_total); ?>'
+                }
+            }
+        };
+        </script>
+        
+        <!-- Synchrony Widget Container -->
+        <div class="type-product sync-price" has-shadow="true" id="syf-promo-checkout" style="margin-top: 15px;"></div>
+    </div>
+    
+    <style>
+        @media (max-width: 768px) {
+            .synchrony-checkout-widget {
+                padding: 15px;
+                margin: 15px 0 20px 0;
+            }
+            .synchrony-checkout-widget h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+    <?php
+}
+
+// Add navigation buttons on checkout
+add_action('woocommerce_before_checkout_form', 'add_checkout_navigation_buttons', 5);
+
+function add_checkout_navigation_buttons() {
+    ?>
+    <div class="checkout-navigation-buttons" style="display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;">
+        <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="nav-button back-to-cart" style="display: inline-flex; align-items: center; gap: 10px; background: #fff; color: #2c3e50; padding: 12px 24px; border: 2px solid #95a5a6; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; transition: all 0.3s ease;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Cart
+        </a>
+        
+    
+    </div>
+    
+    <style>
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-to-cart:hover {
+            background: #95a5a6;
+            color: white;
+            border-color: #95a5a6;
+        }
+        
+        .continue-shopping:hover {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        
+        .continue-shopping:hover svg {
+            stroke: white;
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-navigation-buttons {
+                flex-direction: column;
+                margin-bottom: 20px;
+            }
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+    <?php
+}
+// Move Synchrony widget to cart totals section
+add_action('wp_footer', 'move_synchrony_to_cart_totals');
+function move_synchrony_to_cart_totals() {
+    if (!is_cart()) {
+        return;
+    }
+    ?>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            var syfWidget = document.querySelector('.sync-price#syf-promo');
+            var cartTotals = document.querySelector('.cart-collaterals .cart_totals');
+            
+          if (syfWidget && cartTotals) {
+                // Move widget to top of cart totals
+                cartTotals.insertBefore(syfWidget, cartTotals.firstChild);
+                syfWidget.style.display = 'block';
+                syfWidget.style.marginBottom = '1.5em';
+                syfWidget.style.padding = '1em';
+                syfWidget.style.background = '#f8f9fa';
+                syfWidget.style.borderRadius = '4px';
+                syfWidget.style.border = '1px solid #e0e0e0';
+                syfWidget.style.width = '100%';
+                syfWidget.style.boxSizing = 'border-box';
+            }
+        }, 1500);
+    });
+    </script>
+    <?php
 }
