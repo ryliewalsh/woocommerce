@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom Product Page — Portfolio Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ── Variables ──────────────────────────────────────── */
+:root {
+  --green:   #27ae60;
+  --blue:    #3498db;
+  --red:     #e74c3c;
+  --dark:    #2c3e50;
+  --mid:     #7f8c8d;
+  --light:   #f8f9fa;
+  --border:  #dee2e6;
+  --shadow:  0 4px 20px rgba(0,0,0,0.08);
+  --radius:  12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #f0ede8;
+  color: var(--dark);
+  padding-bottom: 120px;
+}
+
+/* ── Portfolio Banner ───────────────────────────────── */
+.port-banner {
+  background: #0f1923;
+  color: #e8e4dc;
+  padding: 16px 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.port-banner h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #7ec8e3;
+  white-space: nowrap;
+}
+.port-banner p {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.6;
+}
+.port-banner p strong { color: #bbb; }
+.port-features {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.port-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #7ec8e3;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.port-feature-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #7ec8e3;
+  flex-shrink: 0;
+}
+.port-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.port-pill {
+  background: rgba(126,200,227,0.1);
+  border: 1px solid rgba(126,200,227,0.25);
+  color: #7ec8e3;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* ── Fake Store Header ──────────────────────────────── */
+.store-header {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.store-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  color: var(--dark);
+}
+.store-logo span { color: var(--green); }
+.store-nav {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+.store-nav a {
+  font-size: 14px;
+  color: #666;
+  text-decoration: none;
+  font-weight: 500;
+}
+.store-nav a:hover { color: var(--blue); }
+.store-cart-icon {
+  position: relative;
+  cursor: pointer;
+}
+.cart-badge {
+  position: absolute;
+  top: -6px; right: -8px;
+  background: var(--red);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Breadcrumb ─────────────────────────────────────── */
+.breadcrumb {
+  padding: 14px 40px;
+  font-size: 13px;
+  color: #999;
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+.breadcrumb a { color: var(--blue); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* ── Main Product Layout ────────────────────────────── */
+.product-page {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.product-container {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+/* LEFT — sticky images */
+.images-column {
+  position: sticky;
+  top: 56px; /* below store header */
+  flex: 0 0 44%;
+  max-width: 580px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.images-column::-webkit-scrollbar { width: 4px; }
+.images-column::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+
+/* Main image */
+.main-image-wrap {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #c8e6c9 0%, #81c784 50%, #4caf50 100%);
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-image-emoji {
+  font-size: 120px;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.2));
+  transition: transform 0.4s ease;
+}
+.sale-badge {
+  position: absolute;
+  top: 18px; left: 18px;
+  background: var(--red);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* Thumbnails */
+.thumb-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+.thumb {
+  border-radius: 8px;
+  overflow: hidden;
+  height: 80px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: border-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+.thumb:hover, .thumb.active { border-color: var(--blue); }
+.thumb:nth-child(1) { background: linear-gradient(135deg,#c8e6c9,#81c784); }
+.thumb:nth-child(2) { background: linear-gradient(135deg,#bbdefb,#64b5f6); }
+.thumb:nth-child(3) { background: linear-gradient(135deg,#f8bbd0,#f06292); }
+.thumb:nth-child(4) { background: linear-gradient(135deg,#fff9c4,#ffd54f); }
+
+/* RIGHT — scrolling content */
+.content-column {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Product Summary Card ───────────────────────────── */
+.product-summary {
+  background: white;
+  padding: 36px;
+  border-radius: var(--radius);
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.product-title {
+  font-family: 'Fraunces', serif;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.star-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #f39c12;
+}
+.star-row span { color: #666; }
+.product-price {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 24px;
+}
+.product-price del { color: #bbb; font-size: 20px; margin-right: 10px; }
+
+/* ── Size Selector ──────────────────────────────────── */
+/*
+  PORTFOLIO NOTE: In WordPress, each greenhouse size is a SEPARATE product.
+  This component queries WP_Query to find sibling products in the same category,
+  sorts them by a custom 'size-order' attribute, and renders them as links.
+  The "active" state is determined by comparing get_the_ID() to the current product.
+*/
+.size-selector {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px;
+  margin: 24px 0;
+}
+.size-selector-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.size-selector-title svg { color: var(--blue); }
+.size-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.size-option {
+  background: white;
+  border: 3px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.size-option:hover {
+  border-color: var(--blue);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(52,152,219,0.25);
+}
+.size-option.active {
+  border-color: var(--green);
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  box-shadow: 0 6px 18px rgba(39,174,96,0.25);
+}
+.size-option-inner {
+  padding: 16px 10px;
+  text-align: center;
+}
+.size-dim {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+.size-price {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--green);
+}
+.size-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--dark);
+  background: rgba(52,152,219,0.08);
+  border-radius: 8px;
+  padding: 12px;
+}
+.size-note svg { color: var(--blue); flex-shrink: 0; }
+
+.product-short-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #555;
+  margin: 20px 0;
+}
+.product-meta-row {
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #888;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.product-meta-row span strong { color: var(--dark); }
+
+/* ── Package Builder ────────────────────────────────── */
+/*
+  PORTFOLIO NOTE: This builder reads $product->get_cross_sell_ids() from WooCommerce,
+  then categorizes each cross-sell by product tags (anchor/essential/recommended).
+  Variable products get a dropdown via get_available_variations().
+  Selection state is tracked in JS; the checkout button fires an AJAX action
+  (add_package_to_cart) that adds all items to the WC cart server-side.
+*/
+.package-builder {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  margin-bottom: 28px;
+}
+.package-builder-title {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 6px;
+}
+.package-builder-sub {
+  text-align: center;
+  color: #666;
+  font-size: 15px;
+  margin-bottom: 32px;
+}
+
+/* Section headers */
+.pkg-section { margin-bottom: 32px; }
+.pkg-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+  padding: 14px 18px;
+  border-radius: 8px;
+  border-left: 4px solid var(--blue);
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.pkg-section-title.red-left { border-left-color: var(--red); background: linear-gradient(135deg,#fff5f5,#ffe5e5); }
+.sec-badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.sec-badge.red { background: var(--red); color: white; }
+.sec-badge.blue { background: var(--blue); color: white; }
+
+/* Main product card */
+.main-product-card {
+  background: white;
+  border: 3px solid var(--blue);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(52,152,219,0.2);
+  display: flex;
+  gap: 0;
+}
+.main-card-img {
+  width: 160px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg,#c8e6c9,#81c784);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+}
+.main-card-body {
+  padding: 22px;
+  flex: 1;
+}
+.main-card-badge {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.main-card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.main-card-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green);
+}
+.main-card-price del { color: #bbb; font-size: 16px; margin-right: 8px; }
+.included-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--blue);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+/* Compact product cards */
+.compact-list { display: flex; flex-direction: column; gap: 14px; }
+
+.compact-card {
+  background: white;
+  border: 3px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.compact-card:hover {
+  border-color: var(--blue);
+  box-shadow: 0 4px 16px rgba(52,152,219,0.2);
+  transform: translateY(-2px);
+}
+.compact-card.selected {
+  border-color: var(--blue);
+  box-shadow: 0 6px 20px rgba(52,152,219,0.3);
+}
+.compact-card-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  position: relative;
+}
+.compact-check {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+  opacity: 0.35;
+}
+.compact-card.selected .compact-check {
+  background: var(--blue);
+  opacity: 1;
+}
+.compact-check svg { color: white; }
+.compact-thumb {
+  width: 72px; height: 72px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  border: 2px solid #eee;
+  transition: border-color 0.2s;
+}
+.compact-card.selected .compact-thumb { border-color: var(--blue); }
+.compact-info { flex: 1; min-width: 0; margin-right: 44px; }
+.compact-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  transition: color 0.2s;
+}
+.compact-card.selected .compact-name { color: var(--blue); }
+.compact-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.compact-price del { color: #bbb; font-size: 14px; }
+.savings-tag {
+  background: #fff9c4;
+  color: #856404;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.expand-btn {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border: 2px solid var(--border);
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  z-index: 2;
+}
+.expand-btn:hover { border-color: var(--blue); background: #e3f2fd; }
+.expand-btn svg { transition: transform 0.25s; }
+.expand-btn.open svg { transform: rotate(180deg); }
+
+.compact-desc {
+  border-top: 2px solid #eee;
+  background: #f8f9fa;
+  display: none;
+}
+.compact-card.selected .compact-desc {
+  border-top-color: var(--blue);
+  background: linear-gradient(135deg,#e3f2fd,#bbdefb);
+}
+.compact-desc-inner {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.7;
+}
+
+/* Tabs */
+.sticky-tabs {
+  position: sticky;
+  top: 56px;
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+  z-index: 50;
+}
+.tabs-nav {
+  display: flex;
+  background: var(--light);
+  list-style: none;
+}
+.tabs-nav li { flex: 1; }
+.tabs-nav a {
+  display: block;
+  padding: 18px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  color: #666;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+.tabs-nav a:hover { background: #eee; color: var(--dark); }
+.tabs-nav a.active { background: white; color: var(--blue); border-bottom-color: var(--blue); }
+
+.tab-panels { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 36px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.tab-panel h3 { font-family: 'Fraunces', serif; font-size: 22px; margin-bottom: 16px; }
+.tab-panel p { font-size: 15px; line-height: 1.8; color: #555; margin-bottom: 14px; }
+.tab-panel ul { padding-left: 20px; }
+.tab-panel li { font-size: 15px; line-height: 1.8; color: #555; margin-bottom: 6px; }
+
+/* ── Sticky Checkout Bar ────────────────────────────── */
+/*
+  PORTFOLIO NOTE: The bar listens to the package builder's selection state
+  via a shared selectedProducts array. On click, it fires a fetch() POST to
+  WordPress admin-ajax.php with action: add_package_to_cart.
+  The PHP handler (in functions.php) loops the product IDs and calls
+  WC()->cart->add_to_cart() for each, then returns checkout_url on success.
+  Simulated here with a 1.2s fake delay then success state.
+*/
+.sticky-checkout {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(135deg, #1a252f, #2c3e50);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.35);
+  z-index: 9999;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+.sticky-checkout.hidden { transform: translateY(100%); }
+.checkout-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.checkout-count-box {
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,255,255,0.18);
+  border-radius: 8px;
+  padding: 12px 18px;
+  color: white;
+  text-align: center;
+  flex-shrink: 0;
+}
+.count-num {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  line-height: 1;
+  display: block;
+}
+.count-label { font-size: 11px; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.checkout-items { flex: 1; color: white; min-width: 0; }
+.checkout-items strong { display: block; font-size: 14px; margin-bottom: 3px; opacity: 0.8; }
+.checkout-items-list { font-size: 13px; opacity: 0.55; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.checkout-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.checkout-total { text-align: right; }
+.total-label { font-size: 11px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+.total-amount {
+  font-family: 'Fraunces', serif;
+  font-size: 30px;
+  color: var(--green);
+  line-height: 1;
+}
+
+.qty-wrap { display: flex; align-items: center; gap: 8px; }
+.qty-wrap label { color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 600; }
+.qty-input {
+  width: 60px;
+  padding: 10px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+}
+.qty-input:focus { outline: none; border-color: var(--blue); }
+
+.checkout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #27ae60, #1e8449);
+  color: white;
+  border: none;
+  padding: 16px 36px;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 16px rgba(39,174,96,0.4);
+  transition: all 0.25s ease;
+}
+.checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(39,174,96,0.5); }
+.checkout-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.checkout-btn.success { background: linear-gradient(135deg,#1e8449,#145a32); }
+
+/* Notification */
+.notif {
+  position: fixed;
+  top: 20px; right: 20px;
+  background: #2c3e50;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 99999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  transform: translateX(140%);
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 300px;
+}
+.notif.show { transform: translateX(0); }
+.notif.success { border-left: 4px solid var(--green); }
+.notif.info    { border-left: 4px solid var(--blue); }
+.notif.error   { border-left: 4px solid var(--red); }
+
+/* Spin animation */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 0.9s linear infinite; }
+
+/* Responsive */
+@media (max-width: 1023px) {
+  .product-container { flex-direction: column; }
+  .images-column { position: static; max-width: 100%; width: 100%; }
+  .size-options { grid-template-columns: repeat(2, 1fr); }
+  .port-banner { grid-template-columns: 1fr; }
+  .store-nav { display: none; }
+  .checkout-inner { flex-wrap: wrap; }
+  .checkout-items { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- Portfolio banner -->
+<div class="port-banner">
+  <div>
+    <h1>Rylie Walsh — Custom WooCommerce Product Page</h1>
+    <div class="port-pills" style="margin-top:8px;">
+      <span class="port-pill">PHP</span>
+      <span class="port-pill">WooCommerce API</span>
+      <span class="port-pill">WP_Query</span>
+      <span class="port-pill">AJAX / fetch()</span>
+      <span class="port-pill">CSS Grid</span>
+      <span class="port-pill">Vanilla JS</span>
+    </div>
+  </div>
+  <div>
+    <p><strong>product-pages/single-product-greenhouse.php</strong> — Full custom product page replacing WooCommerce defaults. PHP/WC calls replaced with static data for this demo.</p>
+  </div>
+  <div class="port-features">
+    <div class="port-feature"><span class="port-feature-dot"></span>Sticky split-column layout</div>
+    <div class="port-feature"><span class="port-feature-dot"></span>WP_Query size selector (separate products per size)</div>
+    <div class="port-feature"><span class="port-feature-dot"></span>Package builder with live state + running total</div>
+    <div class="port-feature"><span class="port-feature-dot"></span>Sticky checkout bar → AJAX add-to-cart</div>
+  </div>
+</div>
+
+<!-- Fake store chrome -->
+<div class="store-header">
+  <div class="store-logo">Greenhouse Co<span>.</span></div>
+  <ul class="store-nav">
+    <li><a href="#">Greenhouses</a></li>
+    <li><a href="#">Accessories</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="store-cart-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
+      <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+    </svg>
+    <span class="cart-badge" id="cartBadge">0</span>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="#">Home</a> › <a href="#">Greenhouses</a> › <a href="#">Summit Series</a> › Summit Series 8×16
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PRODUCT PAGE — mirrors PHP template structure
+     ══════════════════════════════════════════════════ -->
+<div class="product-page">
+  <div class="product-container">
+
+    <!-- LEFT: Sticky image column -->
+    <!-- PHP: position:sticky is applied via CSS; images come from get_the_post_thumbnail() + get_gallery_image_ids() -->
+    <div class="images-column">
+      <div class="main-image-wrap" id="mainImageWrap">
+        <span class="sale-badge">Sale!</span>
+        <div class="main-image-emoji" id="mainEmoji">🏔️</div>
+      </div>
+      <div class="thumb-row">
+        <div class="thumb active" data-emoji="🏔️" data-bg="linear-gradient(135deg,#c8e6c9,#81c784)">🏔️</div>
+        <div class="thumb" data-emoji="🌿" data-bg="linear-gradient(135deg,#bbdefb,#64b5f6)">🌿</div>
+        <div class="thumb" data-emoji="🏡" data-bg="linear-gradient(135deg,#f8bbd0,#f06292)">🏡</div>
+        <div class="thumb" data-emoji="🌱" data-bg="linear-gradient(135deg,#fff9c4,#ffd54f)">🌱</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Scrolling content column -->
+    <div class="content-column">
+
+      <!-- Product summary card -->
+      <div class="product-summary">
+        <h1 class="product-title">Summit Series 8×16 Greenhouse</h1>
+        <div class="star-row">
+          ★★★★★ <span>(47 reviews — shown from full Summit Series)</span>
+        </div>
+        <div class="product-price">
+          <del>$1,299</del>$999
+        </div>
+
+        <!-- Size selector -->
+        <!-- PHP: WP_Query finds all in-stock products sharing same category IDs, sorts by 'size-order' custom attribute -->
+        <div class="size-selector">
+          <div class="size-selector-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+            </svg>
+            Available Sizes — Choose Yours
+          </div>
+          <div class="size-options">
+            <a class="size-option" href="#"><div class="size-option-inner"><div class="size-dim">6×8</div><div class="size-price">$499</div></div></a>
+            <a class="size-option" href="#"><div class="size-option-inner"><div class="size-dim">8×8</div><div class="size-price">$699</div></div></a>
+            <a class="size-option active" href="#"><div class="size-option-inner"><div class="size-dim">8×16</div><div class="size-price">$999</div></div></a>
+            <a class="size-option" href="#"><div class="size-option-inner"><div class="size-dim">8×24</div><div class="size-price">$1,299</div></div></a>
+          </div>
+          <div class="size-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Each size comes with size-specific accessories and options
+          </div>
+        </div>
+
+        <p class="product-short-desc">
+          The Summit 8×16 delivers professional-grade growing capacity with premium twin-wall polycarbonate panels, reinforced aluminum framing, and a 10-year structural warranty. 128 sq ft of dedicated growing space — serious capacity for serious gardeners.
+        </p>
+        <div class="product-meta-row">
+          <span><strong>SKU:</strong> SMT-8X16</span>
+          <span><strong>Category:</strong> Summit Series</span>
+          <span><strong>Stock:</strong> In Stock</span>
+        </div>
+      </div>
+
+      <!-- ── Package Builder ───────────────────────────────────── -->
+      <!-- PHP: cross-sell IDs from $product->get_cross_sell_ids(), categorized by WP product tags -->
+      <div class="package-builder">
+        <h2 class="package-builder-title">Build Your Complete Package</h2>
+        <p class="package-builder-sub">Click items to add them to your package • Total updates live</p>
+
+        <!-- Main product section -->
+        <div class="pkg-section">
+          <div class="pkg-section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Your Selected Greenhouse
+          </div>
+          <div class="main-product-card"
+               data-product-id="101"
+               data-product-name="Summit Series 8×16 Greenhouse"
+               data-product-price="999">
+            <div class="main-card-img">🏔️</div>
+            <div class="main-card-body">
+              <span class="main-card-badge">Main Product</span>
+              <div class="main-card-title">Summit Series 8×16 Greenhouse</div>
+              <div class="main-card-price"><del>$1,299</del>$999</div>
+              <div class="included-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                Included
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Installation add-ons (anchor tag in WC) -->
+        <div class="pkg-section">
+          <div class="pkg-section-title red-left">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Installation Add-Ons
+            <span class="sec-badge red">Must be added at installation</span>
+          </div>
+          <div class="compact-list">
+
+            <div class="compact-card"
+                 data-product-id="201"
+                 data-product-name="Ground Anchor Kit"
+                 data-product-price="89">
+              <div class="compact-card-row">
+                <div class="compact-check">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="compact-thumb" style="background:linear-gradient(135deg,#d7ccc8,#a1887f);">⚓</div>
+                <div class="compact-info">
+                  <div class="compact-name">Ground Anchor Kit</div>
+                  <div class="compact-price"><del>$120</del>$89 <span class="savings-tag">Save $31</span></div>
+                </div>
+                <button class="expand-btn" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+              <div class="compact-desc">
+                <div class="compact-desc-inner">Heavy-duty galvanized steel anchors rated for 90mph winds. Includes all hardware and installation template. Required for permanent installations and any location with significant wind exposure.</div>
+              </div>
+            </div>
+
+            <div class="compact-card"
+                 data-product-id="202"
+                 data-product-name="Moisture Barrier Foundation"
+                 data-product-price="149">
+              <div class="compact-card-row">
+                <div class="compact-check">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="compact-thumb" style="background:linear-gradient(135deg,#b2dfdb,#4db6ac);">💧</div>
+                <div class="compact-info">
+                  <div class="compact-name">Moisture Barrier Foundation</div>
+                  <div class="compact-price">$149</div>
+                </div>
+                <button class="expand-btn" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+              <div class="compact-desc">
+                <div class="compact-desc-inner">Professional-grade polyethylene barrier prevents ground moisture from entering your greenhouse. Cut to size for an exact fit — strongly recommended for any ground-level installation.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Recommended add-ons -->
+        <div class="pkg-section">
+          <div class="pkg-section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Recommended Add-Ons
+            <span class="sec-badge blue">Popular Choices</span>
+          </div>
+          <div class="compact-list">
+
+            <div class="compact-card"
+                 data-product-id="301"
+                 data-product-name="Automatic Roof Vent Opener"
+                 data-product-price="65">
+              <div class="compact-card-row">
+                <div class="compact-check">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="compact-thumb" style="background:linear-gradient(135deg,#e1f5fe,#81d4fa);">🌬️</div>
+                <div class="compact-info">
+                  <div class="compact-name">Automatic Roof Vent Opener</div>
+                  <div class="compact-price"><del>$89</del>$65 <span class="savings-tag">Save $24</span></div>
+                </div>
+                <button class="expand-btn" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+              <div class="compact-desc">
+                <div class="compact-desc-inner">Temperature-activated wax cylinder opens vents automatically when temperature exceeds a set threshold. No electricity required. Keeps your plants safe even when you're away.</div>
+              </div>
+            </div>
+
+            <div class="compact-card"
+                 data-product-id="302"
+                 data-product-name="Shade Cloth 50% — 8×16"
+                 data-product-price="55">
+              <div class="compact-card-row">
+                <div class="compact-check">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="compact-thumb" style="background:linear-gradient(135deg,#fff9c4,#ffd54f);">☀️</div>
+                <div class="compact-info">
+                  <div class="compact-name">Shade Cloth 50% — 8×16</div>
+                  <div class="compact-price">$55</div>
+                </div>
+                <button class="expand-btn" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+              <div class="compact-desc">
+                <div class="compact-desc-inner">Pre-cut to fit the Summit 8×16 exactly. Reduces solar heat by 50% — essential for summer growing. UV-stabilized knitted polyethylene, reusable season to season.</div>
+              </div>
+            </div>
+
+            <div class="compact-card"
+                 data-product-id="303"
+                 data-product-name="Shelving Unit — 4-Tier"
+                 data-product-price="79">
+              <div class="compact-card-row">
+                <div class="compact-check">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="compact-thumb" style="background:linear-gradient(135deg,#ede7f6,#ce93d8);">🪴</div>
+                <div class="compact-info">
+                  <div class="compact-name">Shelving Unit — 4-Tier</div>
+                  <div class="compact-price">$79</div>
+                </div>
+                <button class="expand-btn" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+              <div class="compact-desc">
+                <div class="compact-desc-inner">Aluminum 4-tier staging shelves, custom-fit to the Summit frame. Maximizes vertical growing space. Each tier holds up to 50lbs. Ships flat, assembles in 20 minutes.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- end package-builder -->
+
+      <!-- Sticky tabs -->
+      <div class="sticky-tabs">
+        <ul class="tabs-nav">
+          <li><a href="#" class="tab-link active" data-tab="description">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Description
+          </a></li>
+          <li><a href="#" class="tab-link" data-tab="specs">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Specifications
+          </a></li>
+          <li><a href="#" class="tab-link" data-tab="reviews">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Reviews
+          </a></li>
+        </ul>
+      </div>
+
+      <div class="tab-panels">
+        <div class="tab-panel active" id="tab-description">
+          <h3>Product Description</h3>
+          <p>The Summit Series 8×16 is built for gardeners who are serious about extending their growing season. With 128 square feet of interior space and a 9-foot peak height, you can grow everything from tomatoes to tropical plants year-round in most climates.</p>
+          <p>Twin-wall 6mm polycarbonate panels provide 80% light transmission while blocking 99% of UV — better insulation than glass with superior impact resistance. The heavy-duty aluminum frame is pre-drilled and labeled for straightforward assembly.</p>
+          <ul>
+            <li>6mm twin-wall polycarbonate panels, 10-year warranty</li>
+            <li>Heavy-duty anodized aluminum frame</li>
+            <li>Two roof vents + sliding door included</li>
+            <li>Wind rated to 60mph, snow load 15 lbs/sq ft</li>
+            <li>Assembly time: approx. 6–8 hours, 2 people recommended</li>
+          </ul>
+        </div>
+        <div class="tab-panel" id="tab-specs">
+          <h3>Specifications</h3>
+          <p><strong>Dimensions:</strong> 8ft wide × 16ft long × 9ft peak height</p>
+          <p><strong>Interior sq ft:</strong> 128 sq ft</p>
+          <p><strong>Frame:</strong> Anodized aluminum, 1.5mm wall thickness</p>
+          <p><strong>Glazing:</strong> 6mm twin-wall polycarbonate, UV protected</p>
+          <p><strong>Door:</strong> Sliding aluminum-framed door, 6ft tall × 2.5ft wide</p>
+          <p><strong>Vents:</strong> 2 roof vents (manual, upgradeable to auto)</p>
+          <p><strong>Wind rating:</strong> 60 mph</p>
+          <p><strong>Snow load:</strong> 15 lbs/sq ft</p>
+          <p><strong>Weight:</strong> 320 lbs (assembled)</p>
+        </div>
+        <div class="tab-panel" id="tab-reviews">
+          <h3>Customer Reviews</h3>
+          <!-- PHP: Reviews are pulled from entire Summit category via get_comments(post__in: all category product IDs) -->
+          <div style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-left:4px solid #2196f3;padding:16px;border-radius:8px;margin-bottom:24px;font-size:14px;color:#555;">
+            ℹ️ <strong style="color:#1976d2;">Reviews shown from all Summit Series sizes</strong> — same frame, same quality, different footprints. All reviews pulled via <code>get_comments(post__in: $all_category_product_ids)</code>.
+          </div>
+          <div style="border-bottom:1px solid #eee;padding-bottom:20px;margin-bottom:20px;">
+            <span style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);color:#1976d2;padding:4px 12px;border-radius:6px;font-size:13px;font-weight:600;border:2px solid #90caf9;">Summit Series 8×24</span>
+            <div style="color:#f39c12;margin:10px 0;">★★★★★</div>
+            <p style="font-size:15px;"><strong>Karen M.</strong> — January 12, 2025</p>
+            <p style="color:#555;margin-top:6px;line-height:1.7;">Built this myself over two weekends. Instructions were clear, everything was labeled. It's now full of peppers and tomatoes all winter. Best purchase I've made for the garden.</p>
+          </div>
+          <div style="border-bottom:1px solid #eee;padding-bottom:20px;margin-bottom:20px;">
+            <span style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);color:#1976d2;padding:4px 12px;border-radius:6px;font-size:13px;font-weight:600;border:2px solid #90caf9;">Summit Series 8×16</span>
+            <div style="color:#f39c12;margin:10px 0;">★★★★★</div>
+            <p style="font-size:15px;"><strong>David T.</strong> — March 3, 2025</p>
+            <p style="color:#555;margin-top:6px;line-height:1.7;">Third greenhouse I've owned, first time I've been truly happy. The polycarbonate panels are noticeably thicker than competitors. Added the auto vent openers and shade cloth — highly recommend both.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end content-column -->
+  </div><!-- end product-container -->
+</div><!-- end product-page -->
+
+<!-- Sticky checkout bar -->
+<div class="sticky-checkout" id="stickyCheckout">
+  <div class="checkout-inner">
+    <div class="checkout-count-box">
+      <span class="count-num" id="countNum">1</span>
+      <span class="count-label">Items</span>
+    </div>
+    <div class="checkout-items">
+      <strong>Your Package:</strong>
+      <div class="checkout-items-list" id="itemsList">Summit Series 8×16 Greenhouse</div>
+    </div>
+    <div class="checkout-actions">
+      <div class="checkout-total">
+        <div class="total-label">Package Total</div>
+        <div class="total-amount" id="totalAmount">$999</div>
+      </div>
+      <div class="qty-wrap">
+        <label for="qtyInput">Qty:</label>
+        <input type="number" id="qtyInput" class="qty-input" value="1" min="1">
+      </div>
+      <button class="checkout-btn" id="checkoutBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        Checkout Now
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Notification -->
+<div class="notif" id="notif"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  /* ── Helpers ─────────────────────────────────────────── */
+  const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
+
+  function showNotif(msg, type='info') {
+    const el = $('#notif');
+    el.textContent = msg;
+    el.className = 'notif ' + type;
+    void el.offsetWidth;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 3500);
+  }
+
+  /* ── Thumbnail gallery ───────────────────────────────── */
+  const mainEmoji = $('#mainEmoji');
+  const mainWrap  = $('#mainImageWrap');
+  $$('.thumb').forEach(t => {
+    t.addEventListener('click', () => {
+      $$('.thumb').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      mainEmoji.textContent = t.dataset.emoji;
+      mainWrap.style.background = t.dataset.bg;
+    });
+  });
+
+  /* ── Tab navigation ──────────────────────────────────── */
+  $$('.tab-link').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const tab = link.dataset.tab;
+      $$('.tab-link').forEach(l => l.classList.remove('active'));
+      $$('.tab-panel').forEach(p => p.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+    });
+  });
+
+  /* ── Package builder state ───────────────────────────── */
+  // Main product is always selected
+  let selectedProducts = [{
+    id: 101,
+    name: 'Summit Series 8×16 Greenhouse',
+    price: 999
+  }];
+
+  function updateSummary() {
+    $('#countNum').textContent = selectedProducts.length;
+    $('#itemsList').textContent = selectedProducts.map(p => p.name).join(', ');
+    const total = selectedProducts.reduce((s, p) => s + p.price, 0);
+    $('#totalAmount').textContent = '$' + total.toLocaleString();
+    $('#cartBadge').textContent = selectedProducts.length;
+  }
+
+  /* ── Compact card click (toggle selection) ───────────── */
+  $$('.compact-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      // Don't toggle if clicking the expand button
+      if (e.target.closest('.expand-btn')) return;
+
+      const id    = parseInt(this.dataset.productId);
+      const name  = this.dataset.productName;
+      const price = parseFloat(this.dataset.productPrice);
+
+      if (this.classList.contains('selected')) {
+        this.classList.remove('selected');
+        selectedProducts = selectedProducts.filter(p => p.id !== id);
+        showNotif('Removed from package', 'info');
+      } else {
+        this.classList.add('selected');
+        if (!selectedProducts.find(p => p.id === id)) {
+          selectedProducts.push({ id, name, price });
+        }
+        showNotif('✓ Added: ' + name, 'success');
+      }
+      updateSummary();
+    });
+  });
+
+  /* ── Expand/collapse descriptions ────────────────────── */
+  $$('.expand-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const desc = this.closest('.compact-card').querySelector('.compact-desc');
+      const open = desc.style.display === 'block';
+      desc.style.display = open ? 'none' : 'block';
+      this.classList.toggle('open', !open);
+    });
+  });
+
+  /* ── Checkout button (simulated AJAX) ────────────────── */
+  /*
+    In WordPress this fires:
+      fetch(ajaxUrl, { body: FormData({ action:'add_package_to_cart', products: JSON.stringify(selectedProducts) }) })
+    The PHP handler loops selectedProducts, calls WC()->cart->add_to_cart() for each,
+    returns { success: true, data: { checkout_url, added_count } } on success.
+  */
+  $('#checkoutBtn').addEventListener('click', function() {
+    if (selectedProducts.length === 0) {
+      showNotif('Select at least one product', 'error'); return;
+    }
+
+    const btn = this;
+    btn.disabled = true;
+    btn.innerHTML = `
+      <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+      </svg>
+      Adding to Cart...
+    `;
+
+    // Simulate the AJAX round-trip (1.2s)
+    setTimeout(() => {
+      btn.classList.add('success');
+      btn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Success! Redirecting…
+      `;
+      showNotif(`${selectedProducts.length} item(s) added to cart!`, 'success');
+
+      // In production: window.location.href = data.data.checkout_url
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.classList.remove('success');
+        btn.innerHTML = `
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          Checkout Now
+        `;
+        showNotif('Demo: redirect would go to /checkout', 'info');
+      }, 2500);
+    }, 1200);
+  });
+
+  /* ── Init ────────────────────────────────────────────── */
+  updateSummary();
+});
+</script>
+</body>
+</html>
