@@ -12,8 +12,7 @@ global $product;
 // Get current product's categories
 $current_categories = wp_get_post_terms($product->get_id(), 'product_cat', array('fields' => 'ids'));
 
-// Define your main greenhouse categories (adjust these to your actual category slugs/IDs)
-// You can also get these dynamically
+// Define main greenhouse categories
 $main_categories = array(
     'element',
     'ascent',
@@ -25,7 +24,7 @@ $main_categories = array(
 $all_categories = get_terms(array(
     'taxonomy' => 'product_cat',
     'hide_empty' => true,
-    'slug' => $main_categories, // Only get your main categories
+    'slug' => $main_categories,
 ));
 
 // Filter out current category
