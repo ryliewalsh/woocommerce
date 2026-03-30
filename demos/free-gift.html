@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Gift with Purchase — Portfolio Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,700;1,300&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:  #27ae60;
+  --blue:   #3498db;
+  --red:    #e74c3c;
+  --orange: #d4773c;
+  --dark:   #2c3e50;
+  --mid:    #7f8c8d;
+  --light:  #f8f9fa;
+  --border: #e0e0e0;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --radius: 12px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: #f0ede8; color: var(--dark); }
+
+/* ── Portfolio Banner ── */
+.port-banner {
+  background: #0f1923; color: #e8e4dc;
+  padding: 16px 32px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px; align-items: start;
+}
+.port-banner h1 { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 400; color: #7ec8e3; }
+.port-banner p { font-size: 12px; color: #888; line-height: 1.6; }
+.port-banner p strong { color: #bbb; }
+.port-features { display: flex; flex-direction: column; gap: 6px; }
+.port-feature { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #7ec8e3; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+.port-feature-dot { width: 6px; height: 6px; border-radius: 50%; background: #7ec8e3; flex-shrink: 0; }
+.port-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.port-pill { background: rgba(126,200,227,0.1); border: 1px solid rgba(126,200,227,0.25); color: #7ec8e3; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; }
+
+/* ── Store Header ── */
+.store-header { background: white; border-bottom: 1px solid #e0e0e0; padding: 14px 40px; display: flex; align-items: center; justify-content: space-between; }
+.store-logo { font-family: 'Fraunces', serif; font-size: 22px; color: var(--dark); }
+.store-logo span { color: var(--green); }
+.cart-icon-wrap { position: relative; cursor: pointer; }
+.cart-badge-icon { position: absolute; top: -6px; right: -8px; background: var(--red); color: white; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+/* ── Free gift promo banner ── */
+.promo-banner {
+  background: linear-gradient(135deg, #d4773c, #e8943a);
+  color: white; padding: 14px 40px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; font-weight: 600; font-size: 15px;
+}
+.promo-banner svg { flex-shrink: 0; }
+
+/* ── Layout ── */
+.page-layout {
+  max-width: 1300px; margin: 40px auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1fr 380px; gap: 32px; align-items: start;
+}
+
+/* ── Hook log panel ── */
+.hook-log {
+  background: #0d1117; border-radius: var(--radius);
+  padding: 20px; margin: 0 24px 24px; font-family: 'DM Mono', monospace;
+  font-size: 12px; border: 1px solid rgba(255,255,255,0.07);
+}
+.hook-log-title { color: #58a6ff; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+.hook-log-entries { max-height: 90px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.hook-entry { display: flex; gap: 10px; align-items: baseline; }
+.hook-entry .hook-name { color: #7ec8e3; flex-shrink: 0; }
+.hook-entry .hook-msg { color: #8b949e; }
+.hook-entry .hook-msg.ok { color: #3fb950; }
+.hook-entry .hook-msg.warn { color: #d4773c; }
+.hook-entry .hook-time { color: #444; font-size: 10px; flex-shrink: 0; margin-left: auto; }
+
+/* ── Product grid ── */
+.products-section h2 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; margin-bottom: 20px; color: var(--dark); }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
+
+.product-card {
+  background: white; border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow);
+  border: 2px solid transparent; transition: all 0.25s;
+  display: flex; flex-direction: column;
+}
+.product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.13); }
+.product-card.in-cart { border-color: var(--green); }
+
+.product-img {
+  height: 140px; display: flex; align-items: center;
+  justify-content: center; font-size: 52px; position: relative;
+}
+.greenhouse-badge {
+  position: absolute; top: 10px; left: 10px;
+  background: var(--green); color: white;
+  font-size: 10px; font-weight: 700; padding: 3px 8px;
+  border-radius: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+  font-family: 'DM Sans', sans-serif;
+}
+.product-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+.product-name { font-weight: 600; font-size: 15px; margin-bottom: 6px; line-height: 1.3; color: var(--dark); }
+.product-price { font-size: 18px; font-weight: 700; color: var(--green); margin-bottom: 14px; }
+.product-price del { color: #bbb; font-size: 14px; margin-right: 4px; }
+.product-category { font-size: 11px; color: var(--mid); margin-bottom: 10px; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; }
+.add-btn {
+  margin-top: auto; padding: 10px 16px; border-radius: 8px;
+  border: none; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--dark); color: white;
+}
+.add-btn:hover { background: var(--blue); }
+.add-btn.added { background: var(--green); }
+.add-btn.remove-mode { background: #fff; color: var(--red); border: 2px solid var(--red); }
+.add-btn.remove-mode:hover { background: var(--red); color: white; }
+
+/* ── Cart panel ── */
+.cart-panel {
+  background: white; border-radius: var(--radius);
+  box-shadow: var(--shadow); position: sticky; top: 24px;
+  overflow: hidden;
+}
+.cart-header {
+  background: var(--dark); color: white;
+  padding: 18px 22px; display: flex; align-items: center; justify-content: space-between;
+}
+.cart-header-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; }
+.cart-count-pill {
+  background: var(--green); color: white; font-size: 12px;
+  font-weight: 700; padding: 3px 10px; border-radius: 20px;
+}
+
+.cart-empty {
+  padding: 40px 22px; text-align: center; color: var(--mid); font-size: 15px;
+}
+.cart-empty svg { margin-bottom: 12px; opacity: 0.3; }
+
+.cart-items { padding: 12px; }
+
+/* Free gift announcement */
+.free-gift-announcement {
+  background: linear-gradient(135deg, #fff8f0, #ffe8d4);
+  border: 2px solid var(--orange); border-radius: 10px;
+  padding: 14px 16px; margin-bottom: 10px;
+  display: none; align-items: center; gap: 12px;
+  animation: slideIn 0.4s ease;
+}
+.free-gift-announcement.visible { display: flex; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.gift-announcement-text { font-size: 13px; font-weight: 600; color: var(--orange); line-height: 1.4; }
+
+/* Cart item */
+.cart-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px; border-radius: 10px; margin-bottom: 8px;
+  background: var(--light); transition: all 0.3s;
+  border: 2px solid transparent;
+  animation: itemIn 0.3s ease;
+}
+@keyframes itemIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+.cart-item.free-item { background: #fff8f0; border-color: var(--orange); }
+.cart-item.removing { opacity: 0; transform: translateX(20px); }
+
+.cart-item-emoji { font-size: 28px; flex-shrink: 0; width: 44px; text-align: center; }
+.cart-item-info { flex: 1; min-width: 0; }
+.cart-item-name { font-size: 13px; font-weight: 600; color: var(--dark); line-height: 1.3; margin-bottom: 4px; }
+.free-gift-badge {
+  display: inline-block; background: var(--orange); color: white;
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px;
+  margin-left: 6px; vertical-align: middle; font-family: 'DM Mono', monospace;
+}
+.cart-item-price { font-size: 14px; font-weight: 700; color: var(--green); }
+.cart-item-price.free { color: var(--orange); }
+.cart-item-price del { color: #bbb; font-size: 12px; margin-right: 4px; font-weight: 400; }
+
+.cart-item-qty {
+  font-size: 12px; color: var(--mid); background: white;
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 4px 10px; font-weight: 600; flex-shrink: 0;
+}
+.cart-item-qty.locked { color: #bbb; font-style: italic; }
+
+.cart-remove {
+  background: none; border: none; cursor: pointer;
+  color: #ccc; font-size: 18px; transition: color 0.2s;
+  flex-shrink: 0; width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+}
+.cart-remove:hover { color: var(--red); background: #fff5f5; }
+.cart-remove.locked {
+  cursor: not-allowed; color: var(--green);
+  font-size: 14px;
+}
+.cart-remove.locked:hover { background: transparent; color: var(--green); }
+
+/* Cart totals */
+.cart-totals { padding: 14px 14px 0; border-top: 1px solid var(--border); margin-top: 4px; }
+.totals-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--mid); margin-bottom: 8px; }
+.totals-row.savings { color: var(--green); font-weight: 600; }
+.totals-row.total { font-size: 18px; font-weight: 700; color: var(--dark); border-top: 1px solid var(--border); padding-top: 10px; margin-top: 4px; }
+
+.checkout-btn {
+  display: block; width: calc(100% - 28px); margin: 14px;
+  background: linear-gradient(135deg, var(--green), #229954);
+  color: white; border: none; padding: 16px;
+  border-radius: 10px; font-size: 16px; font-weight: 700;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s; text-align: center;
+}
+.checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(39,174,96,0.4); }
+.checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Notification */
+.notif {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--dark); color: white; padding: 14px 24px;
+  border-radius: 30px; font-size: 14px; font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 9999;
+  transition: transform 0.3s ease; white-space: nowrap;
+  display: flex; align-items: center; gap: 10px;
+}
+.notif.show { transform: translateX(-50%) translateY(0); }
+.notif.green { border-left: 4px solid var(--green); }
+.notif.orange { border-left: 4px solid var(--orange); }
+.notif.red { border-left: 4px solid var(--red); }
+
+@media (max-width: 900px) {
+  .page-layout { grid-template-columns: 1fr; }
+  .cart-panel { position: static; }
+  .port-banner { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Portfolio banner -->
+<div class="port-banner">
+  <div>
+    <h1>Rylie Walsh — Free Gift with Purchase</h1>
+    <div class="port-pills" style="margin-top:8px;">
+      <span class="port-pill">PHP</span>
+      <span class="port-pill">WooCommerce Hooks</span>
+      <span class="port-pill">add_action</span>
+      <span class="port-pill">add_filter</span>
+      <span class="port-pill">Cart API</span>
+    </div>
+  </div>
+  <div>
+    <p><strong>functions.php hooks</strong> — Four WooCommerce hooks working together: auto-add free item, zero out price, badge the cart label, remove when greenhouse leaves cart, lock quantity + remove button.</p>
+  </div>
+  <div class="port-features">
+    <div class="port-feature"><span class="port-feature-dot"></span>woocommerce_add_to_cart → auto-add heater</div>
+    <div class="port-feature"><span class="port-feature-dot"></span>woocommerce_before_calculate_totals → set_price(0)</div>
+    <div class="port-feature"><span class="port-feature-dot"></span>woocommerce_cart_item_removed → remove heater</div>
+    <div class="port-feature"><span class="port-feature-dot"></span>woocommerce_cart_item_remove_link → lock removal</div>
+  </div>
+</div>
+
+<!-- Store chrome -->
+<div class="store-header">
+  <div class="store-logo">Grandio<span>.</span></div>
+  <div class="cart-icon-wrap">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
+      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+    <span class="cart-badge-icon" id="header-cart-count">0</span>
+  </div>
+</div>
+
+<!-- Promo banner -->
+<div class="promo-banner">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+  🎁 FREE Greenhouse Heater (worth $129) with any Greenhouse purchase!
+</div>
+
+<!-- Hook log -->
+<div class="hook-log">
+  <div class="hook-log-title">// Hook Activity Log</div>
+  <div class="hook-log-entries" id="hookLog">
+    <div class="hook-entry"><span class="hook-name">ready</span><span class="hook-msg">Waiting for cart actions…</span></div>
+  </div>
+</div>
+
+<!-- Main layout -->
+<div class="page-layout">
+
+  <!-- Products -->
+  <div class="products-section">
+    <h2>Shop Products</h2>
+    <div class="products-grid" id="productsGrid">
+
+      <!-- Greenhouses -->
+      <div class="product-card" data-id="101" data-name="Summit Series 8×16" data-price="999" data-category="greenhouses" data-emoji="🏔️" data-bg="linear-gradient(135deg,#c8e6c9,#81c784)">
+        <div class="product-img" style="background:linear-gradient(135deg,#c8e6c9,#81c784);">
+          🏔️ <span class="greenhouse-badge">Greenhouse</span>
+        </div>
+        <div class="product-body">
+          <div class="product-category">greenhouses</div>
+          <div class="product-name">Summit Series 8×16</div>
+          <div class="product-price"><del>$1,299</del> $999</div>
+          <button class="add-btn" onclick="toggleCart(101)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <div class="product-card" data-id="102" data-name="Element Series 6×8" data-price="499" data-category="greenhouses" data-emoji="🌱" data-bg="linear-gradient(135deg,#dcedc8,#aed581)">
+        <div class="product-img" style="background:linear-gradient(135deg,#dcedc8,#aed581);">
+          🌱 <span class="greenhouse-badge">Greenhouse</span>
+        </div>
+        <div class="product-body">
+          <div class="product-category">greenhouses</div>
+          <div class="product-name">Element Series 6×8</div>
+          <div class="product-price">$499</div>
+          <button class="add-btn" onclick="toggleCart(102)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <div class="product-card" data-id="103" data-name="Ascent Series 8×12" data-price="749" data-category="greenhouses" data-emoji="🌿" data-bg="linear-gradient(135deg,#b2dfdb,#4db6ac)">
+        <div class="product-img" style="background:linear-gradient(135deg,#b2dfdb,#4db6ac);">
+          🌿 <span class="greenhouse-badge">Greenhouse</span>
+        </div>
+        <div class="product-body">
+          <div class="product-category">greenhouses</div>
+          <div class="product-name">Ascent Series 8×12</div>
+          <div class="product-price">$749</div>
+          <button class="add-btn" onclick="toggleCart(103)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Non-greenhouse accessories -->
+      <div class="product-card" data-id="201" data-name="Ground Anchor Kit" data-price="89" data-category="accessories" data-emoji="⚓" data-bg="linear-gradient(135deg,#d7ccc8,#a1887f)">
+        <div class="product-img" style="background:linear-gradient(135deg,#d7ccc8,#a1887f);">⚓</div>
+        <div class="product-body">
+          <div class="product-category">accessories</div>
+          <div class="product-name">Ground Anchor Kit</div>
+          <div class="product-price"><del>$120</del> $89</div>
+          <button class="add-btn" onclick="toggleCart(201)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <div class="product-card" data-id="202" data-name="Shade Cloth 50%" data-price="55" data-category="accessories" data-emoji="☀️" data-bg="linear-gradient(135deg,#fff9c4,#ffd54f)">
+        <div class="product-img" style="background:linear-gradient(135deg,#fff9c4,#ffd54f);">☀️</div>
+        <div class="product-body">
+          <div class="product-category">accessories</div>
+          <div class="product-name">Shade Cloth 50%</div>
+          <div class="product-price">$55</div>
+          <button class="add-btn" onclick="toggleCart(202)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <div class="product-card" data-id="203" data-name="Shelving Unit 4-Tier" data-price="79" data-category="accessories" data-emoji="🪴" data-bg="linear-gradient(135deg,#ede7f6,#ce93d8)">
+        <div class="product-img" style="background:linear-gradient(135deg,#ede7f6,#ce93d8);">🪴</div>
+        <div class="product-body">
+          <div class="product-category">accessories</div>
+          <div class="product-name">Shelving Unit 4-Tier</div>
+          <div class="product-price">$79</div>
+          <button class="add-btn" onclick="toggleCart(203)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Cart panel -->
+  <div class="cart-panel">
+    <div class="cart-header">
+      <span class="cart-header-title">Your Cart</span>
+      <span class="cart-count-pill" id="cart-count-pill">0 items</span>
+    </div>
+
+    <div id="cart-body">
+      <div class="cart-empty" id="cart-empty">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <p>Your cart is empty.<br>Add a greenhouse to get a<br><strong>free heater!</strong></p>
+      </div>
+
+      <div id="cart-items" class="cart-items" style="display:none;">
+
+        <!-- Free gift announcement -->
+        <div class="free-gift-announcement" id="gift-announcement">
+          <span style="font-size:28px;">🎁</span>
+          <div class="gift-announcement-text">
+            Free Greenhouse Heater added!<br>
+            <span style="font-size:11px;font-weight:400;color:#a05a2c;">Automatically removed if greenhouse is removed</span>
+          </div>
+        </div>
+
+        <div id="cart-item-list"></div>
+
+        <div class="cart-totals" id="cart-totals">
+          <div class="totals-row"><span>Subtotal</span><span id="subtotal-val">$0</span></div>
+          <div class="totals-row savings" id="savings-row" style="display:none;"><span>🎁 Free Heater Savings</span><span id="savings-val">-$129</span></div>
+          <div class="totals-row"><span>Shipping</span><span style="color:#27ae60;font-weight:600;">FREE</span></div>
+          <div class="totals-row total"><span>Total</span><span id="total-val">$0</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="checkout-btn" id="checkout-btn" disabled>Proceed to Checkout</button>
+  </div>
+
+</div>
+
+<!-- Notification -->
+<div class="notif" id="notif"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// CART STATE
+// Mirrors WC()->cart->get_cart() structure
+// ══════════════════════════════════════════════════════════
+const FREE_HEATER_ID  = 999;
+const FREE_HEATER_PRICE = 129;
+const GREENHOUSE_CAT  = 'greenhouses';
+
+const PRODUCTS = {
+  101: { id:101, name:'Summit Series 8×16',  price:999,  category:'greenhouses', emoji:'🏔️', regularPrice:1299 },
+  102: { id:102, name:'Element Series 6×8',  price:499,  category:'greenhouses', emoji:'🌱', regularPrice:499  },
+  103: { id:103, name:'Ascent Series 8×12',  price:749,  category:'greenhouses', emoji:'🌿', regularPrice:749  },
+  201: { id:201, name:'Ground Anchor Kit',   price:89,   category:'accessories', emoji:'⚓', regularPrice:120  },
+  202: { id:202, name:'Shade Cloth 50%',     price:55,   category:'accessories', emoji:'☀️', regularPrice:55   },
+  203: { id:203, name:'Shelving Unit 4-Tier',price:79,   category:'accessories', emoji:'🪴', regularPrice:79   },
+  999: { id:999, name:'Greenhouse Heater',   price:129,  category:'accessories', emoji:'🔥', regularPrice:129, isFreeGift:true },
+};
+
+let cart = {}; // { productId: { product, qty, isFreeGift } }
+
+// ── Helpers ─────────────────────────────────────────────
+function isGreenhouse(id) {
+  return PRODUCTS[id] && PRODUCTS[id].category === GREENHOUSE_CAT;
+}
+function hasGreenhouse() {
+  return Object.keys(cart).some(id => isGreenhouse(parseInt(id)));
+}
+function heaterInCart() {
+  return !!cart[FREE_HEATER_ID];
+}
+
+// ── Hook log ─────────────────────────────────────────────
+function logHook(hookName, msg, style='') {
+  const log = document.getElementById('hookLog');
+  const time = new Date().toLocaleTimeString('en-US', {hour12:false, hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  const entry = document.createElement('div');
+  entry.className = 'hook-entry';
+  entry.innerHTML = `<span class="hook-name">${hookName}</span><span class="hook-msg ${style}">${msg}</span><span class="hook-time">${time}</span>`;
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+// ── Notification ─────────────────────────────────────────
+function showNotif(msg, type='green') {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.className = 'notif ' + type;
+  void el.offsetWidth;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ══════════════════════════════════════════════════════════
+// CORE LOGIC — mirrors PHP hook functions exactly
+// ══════════════════════════════════════════════════════════
+
+/**
+ * Mirrors: add_free_heater_with_greenhouse()
+ * Hook: woocommerce_add_to_cart
+ * Fires when any product is added. If it's a greenhouse
+ * and heater isn't already in cart, add heater as free gift.
+ */
+function woocommerce_add_to_cart(productId) {
+  logHook('woocommerce_add_to_cart', `product_id=${productId} added`);
+
+  if (!isGreenhouse(productId)) {
+    logHook('add_free_heater', `product ${productId} not in 'greenhouses' category — skip`);
+    return;
+  }
+
+  logHook('add_free_heater', `greenhouse detected`, 'ok');
+
+  if (heaterInCart()) {
+    logHook('add_free_heater', `heater already in cart — skip duplicate`);
+    return;
+  }
+
+  // WC()->cart->add_to_cart($free_heater_id, 1, 0, [], ['free_gift' => true])
+  cart[FREE_HEATER_ID] = { product: PRODUCTS[FREE_HEATER_ID], qty: 1, isFreeGift: true };
+  logHook('add_free_heater', `heater added to cart as free_gift=true`, 'ok');
+
+  // Immediately fire price hook
+  woocommerce_before_calculate_totals();
+}
+
+/**
+ * Mirrors: set_free_heater_price()
+ * Hook: woocommerce_before_calculate_totals
+ * Checks if greenhouse still in cart; if so sets heater price to 0.
+ * Guards against double-firing with did_action check.
+ */
+function woocommerce_before_calculate_totals() {
+  logHook('woocommerce_before_calculate_totals', `recalculating cart prices`);
+
+  if (!cart[FREE_HEATER_ID]) return;
+
+  if (hasGreenhouse()) {
+    // $cart_item['data']->set_price(0)
+    cart[FREE_HEATER_ID].displayPrice = 0;
+    logHook('set_free_heater_price', `greenhouse in cart → set_price(0)`, 'ok');
+  } else {
+    cart[FREE_HEATER_ID].displayPrice = FREE_HEATER_PRICE;
+    logHook('set_free_heater_price', `no greenhouse → price restored to $${FREE_HEATER_PRICE}`, 'warn');
+  }
+}
+
+/**
+ * Mirrors: remove_free_heater_if_no_greenhouse()
+ * Hook: woocommerce_cart_item_removed
+ * After any item removed, check if greenhouses remain.
+ * If none, remove the heater.
+ */
+function woocommerce_cart_item_removed(removedId) {
+  logHook('woocommerce_cart_item_removed', `product_id=${removedId} removed`);
+
+  if (!heaterInCart()) return;
+
+  if (!hasGreenhouse()) {
+    logHook('remove_free_heater', `no greenhouse remaining → removing heater`, 'warn');
+
+    // Animate out then remove
+    const heaterEl = document.getElementById('cart-item-' + FREE_HEATER_ID);
+    if (heaterEl) {
+      heaterEl.classList.add('removing');
+      setTimeout(() => {
+        delete cart[FREE_HEATER_ID];
+        renderCart();
+      }, 300);
+    } else {
+      delete cart[FREE_HEATER_ID];
+    }
+  } else {
+    logHook('remove_free_heater', `greenhouse still in cart — heater stays`, 'ok');
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// TOGGLE CART (add / remove from product grid)
+// ══════════════════════════════════════════════════════════
+function toggleCart(productId) {
+  if (cart[productId]) {
+    // Remove
+    const itemEl = document.getElementById('cart-item-' + productId);
+    if (itemEl) {
+      itemEl.classList.add('removing');
+      setTimeout(() => {
+        delete cart[productId];
+        woocommerce_cart_item_removed(productId); // fire hook
+        renderCart();
+        updateProductCard(productId, false);
+        showNotif('Removed from cart', 'red');
+      }, 280);
+    }
+  } else {
+    // Add
+    cart[productId] = { product: PRODUCTS[productId], qty: 1, isFreeGift: false };
+    woocommerce_add_to_cart(productId); // fire hook
+    renderCart();
+    updateProductCard(productId, true);
+
+    if (isGreenhouse(productId) && !cart[FREE_HEATER_ID]) {
+      // heater was just added above in hook — show notification
+    } else if (isGreenhouse(productId)) {
+      showNotif('🏔️ Greenhouse added — heater already in cart!', 'orange');
+    } else {
+      showNotif('✓ Added to cart', 'green');
+    }
+
+    if (isGreenhouse(productId) && cart[FREE_HEATER_ID]) {
+      setTimeout(() => showNotif('🎁 FREE Heater added to your cart!', 'orange'), 600);
+    }
+  }
+}
+
+function updateProductCard(productId, inCart) {
+  const card = document.querySelector(`[data-id="${productId}"]`);
+  if (!card) return;
+  const btn = card.querySelector('.add-btn');
+  card.classList.toggle('in-cart', inCart);
+  if (inCart) {
+    btn.classList.add('remove-mode');
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Remove`;
+  } else {
+    btn.classList.remove('remove-mode', 'added');
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add to Cart`;
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER CART
+// ══════════════════════════════════════════════════════════
+function renderCart() {
+  const items      = Object.values(cart);
+  const empty      = document.getElementById('cart-empty');
+  const cartItems  = document.getElementById('cart-items');
+  const itemList   = document.getElementById('cart-item-list');
+  const countPill  = document.getElementById('cart-count-pill');
+  const headerCount = document.getElementById('header-cart-count');
+  const checkoutBtn = document.getElementById('checkout-btn');
+  const giftAnnounce = document.getElementById('gift-announcement');
+  const savingsRow  = document.getElementById('savings-row');
+
+  const totalItems = items.reduce((s, i) => s + i.qty, 0);
+  countPill.textContent = totalItems + ' item' + (totalItems !== 1 ? 's' : '');
+  headerCount.textContent = totalItems;
+  checkoutBtn.disabled = totalItems === 0;
+
+  if (items.length === 0) {
+    empty.style.display = 'block';
+    cartItems.style.display = 'none';
+    return;
+  }
+
+  empty.style.display = 'none';
+  cartItems.style.display = 'block';
+
+  // Show/hide gift announcement
+  giftAnnounce.classList.toggle('visible', heaterInCart() && hasGreenhouse());
+
+  // Render items
+  itemList.innerHTML = '';
+  items.forEach(({ product, qty, isFreeGift, displayPrice }) => {
+    const effectivePrice = isFreeGift && hasGreenhouse() ? 0 : product.price;
+    const isFree = effectivePrice === 0;
+
+    /**
+     * Mirrors: woocommerce_cart_item_remove_link filter
+     * If item is free gift + greenhouse in cart:
+     *   return '<span class="remove" style="cursor:not-allowed">✓</span>'
+     * Otherwise return normal remove link.
+     */
+    const removeBtn = (isFreeGift && hasGreenhouse())
+      ? `<button class="cart-remove locked" title="Included free with greenhouse — cannot remove">✓</button>`
+      : `<button class="cart-remove" onclick="toggleCart(${product.id})" title="Remove">×</button>`;
+
+    /**
+     * Mirrors: woocommerce_cart_item_quantity filter
+     * If free gift + greenhouse: show plain text '1' instead of qty input
+     * Mirrors: woocommerce_cart_item_name filter
+     * Appends FREE GIFT badge span to product name
+     */
+    const qtyDisplay = (isFreeGift && hasGreenhouse())
+      ? `<span class="cart-item-qty locked">qty: 1 (locked)</span>`
+      : `<span class="cart-item-qty">qty: ${qty}</span>`;
+
+    const nameDisplay = isFreeGift
+      ? `${product.name} <span class="free-gift-badge">🎁 FREE GIFT</span>`
+      : product.name;
+
+    const priceDisplay = isFree
+      ? `<span class="cart-item-price free"><del>$${product.price}</del> FREE</span>`
+      : `<span class="cart-item-price">$${effectivePrice}</span>`;
+
+    const div = document.createElement('div');
+    div.className = 'cart-item' + (isFreeGift ? ' free-item' : '');
+    div.id = 'cart-item-' + product.id;
+    div.innerHTML = `
+      <div class="cart-item-emoji">${product.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${nameDisplay}</div>
+        ${qtyDisplay}
+      </div>
+      ${priceDisplay}
+      ${removeBtn}
+    `;
+    itemList.appendChild(div);
+  });
+
+  // Totals
+  let subtotal = 0;
+  let savings  = 0;
+  items.forEach(({ product, qty, isFreeGift }) => {
+    const isFree = isFreeGift && hasGreenhouse();
+    if (!isFree) subtotal += product.price * qty;
+    if (isFree)  savings  += product.price * qty;
+  });
+
+  document.getElementById('subtotal-val').textContent = '$' + subtotal.toLocaleString();
+  document.getElementById('total-val').textContent    = '$' + subtotal.toLocaleString();
+
+  if (savings > 0) {
+    savingsRow.style.display = 'flex';
+    document.getElementById('savings-val').textContent = '-$' + savings;
+  } else {
+    savingsRow.style.display = 'none';
+  }
+}
+
+// Init
+renderCart();
+</script>
+</body>
+</html>
